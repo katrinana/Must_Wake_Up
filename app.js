@@ -32,3 +32,4 @@ function addOption(event) {
   text = '';
   document.getElementById('dynamic-sel').appendChild(option);
 }
+              
