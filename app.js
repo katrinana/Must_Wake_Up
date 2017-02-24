@@ -11,3 +11,8 @@ window.fn.load = function(page) {
   content.load(page)
     .then(menu.close.bind(menu));
 };
+
+function alarmstate(name){
+	console.log('switch button clicked', name);
+}
+
