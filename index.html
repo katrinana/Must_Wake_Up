@@ -2,6 +2,11 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
+
+  <script src=
+    "https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"
+    type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/lodash/4.17.1/lodash.min.js"></script>
   <link rel="stylesheet" type="text/css" href="style.css">
 
 	<link rel="stylesheet" href="lib/onsen/css/onsenui.css"/>
@@ -67,6 +72,9 @@
   </li>
   </ul>
 <!-- lable list -->
+
+
+
   </ons-page>
 </ons-template>
 
@@ -105,26 +113,40 @@
 <ons-template id="timeset.html">
 <ons-page>
   <ons-toolbar>
-    <div class="center">Select input</div>
+    <div class="center">New alarm</div>
   </ons-toolbar>
-  <h3>Choose a type of select with different modifiers:</h3>
-  <ons-select id="choose-sel" onchange="editSelects(event)">
-    <option value="basic">Basic</option>
-    <option value="material">Material</option>
-    <option value="underbar">Underbar</option>
+  <h4>Set the time for new alarm:</h4>
+
+  <ons-select id="choose-hour">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
   </ons-select>
 
-  <ons-select id="choose-sel" onchange="editSelects(event)">
-    <option value="basic">Basic</option>
-    <option value="material">Material</option>
-    <option value="underbar">Underbar</option>
+  <ons-select id="choose-min">
+    <option value="00">00</option>
+    <option value="10">10</option>
+    <option value="20">20</option>
+    <option value="30">30</option>
+    <option value="40">40</option>
+    <option value="50">50</option>
   </ons-select>
 
-  <ons-select id="choose-sel" onchange="editSelects(event)">
-    <option value="basic">Basic</option>
-    <option value="material">Material</option>
-    <option value="underbar">Underbar</option>
+  <ons-select id="choose-time">
+    <option value="AM">AM</option>
+    <option value="PM">PM</option>
   </ons-select>
+
+  <button class="button--large--quiet"  onclick = "gettime()">Set</button>
   
 </ons-page>
 </ons-template>
