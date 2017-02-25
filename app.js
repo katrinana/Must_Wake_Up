@@ -1,16 +1,4 @@
-window.fn = {};
 
-window.fn.open = function() {
-  var menu = document.getElementById('menu');
-  menu.open();
-};
-
-window.fn.load = function(page) {
-  var content = document.getElementById('content');
-  var menu = document.getElementById('menu');
-  content.load(page)
-    .then(menu.close.bind(menu));
-};
 
 function alarmstate(name){
 	console.log('switch button clicked', name);
@@ -22,12 +10,14 @@ function list_jquery(hour, min, period, name){
   var item = hour + ':' + min + ' ' + period + ' ' + name;
   var end = '<div class="switch__toggle"> <div class="switch__handle"></div> </div> </label> </div> </li>';
 
-  var input = '<input type="checkbox" onclick=' + 'alarmstate('+ id + ') class="switch__input" checked>';
+  var input = '<input type="checkbox" id=switch' + id + ' class="switch__input" checked>';
 
   var jquery = '<li class="list__item" id=' + id + '>' + '<div class="list__item__center">' + item + 
   '</div> <div class="list__item__right"> <label class="switch">';
 
   jquery = jquery + input + end;
+
+  //console.log('jquery list ', jquery); 
 
   return jquery;
 }
@@ -57,7 +47,7 @@ var Alarm = function(name, hour, min, period){
   this.Name = name;
   this.Hour = hour;
   this.Min = min;
-  thie.period = period;
+  this.period = period;
 
   this.getName = function(){
     return this.Name;
@@ -129,7 +119,7 @@ var Model = function(){
             if (_.isUndefined(this._observers)) {
                 this._observers = [];
             }
-            _.forEach(this._observers, function(ivt) {  // execute this function on each element in _observers
+            _.forEach(this._observers, function(obs) {  // execute this function on each element in _observers
                 obs(this, args);
             });
         }
@@ -141,16 +131,28 @@ var View = function(Model){
   this.updateView = function(obs, args){
     var allAlarm = Model.get_Allalarm();
 
+    $(".list").empty();
+
     for(var i = 0; i < allAlarm.length; i++){
       var alarm = allAlarm[i];
-      var hour = alarm.getHour;
-      var min = alarm.getMin;
-      var period = alarm.getPeriod;
-      var name = alarm.getName;
+
+      var hour = alarm.getHour();
+      var min = alarm.getMin();
+      var period = alarm.getPeriod();
+      var name = alarm.getName();
 
       var jquery = list_jquery(hour, min, period, name);
 
       $(".list").append(jquery);
+
+      id ='switch' + hour + min + period;
+
+      $(document).ready(function(){
+        $('#'+id).click(function(){
+          console.log('clicked ', id);
+        });
+      });
+
     }
 
   }
@@ -173,24 +175,60 @@ var addView = function(Model){
       var alarm = Alarm(name, hour, min, period);
 
       Model.add_Alarm(alarm);
-      fn.load('home.html');
+
+      $("#mainmenu").show();
+      $("#addmenu").hide();
+
     });
+
+
+    $('#addbutton').click(function(){
+      console.log('add button clicked.');
+
+      $("#mainmenu").hide();
+      $("#addmenu").show();
+    });
+
+
   }
 }
 
 
 function startApp(){
   console.log('start app.');
+  var m = new Model();
 
 
-  $('#setbutton').click(function(){
+  $("#mainmenu").show();
+  $("#addmenu").hide();
+ 
 
-    console.log('set button clicked.');
+  $('#addbutton').click(function(){
+      console.log('add button clicked.');
 
+      $("#mainmenu").hide();
+      $("#addmenu").show();
   });
 
-  //var m = new Model();
-  //var main_view = new View(m);
+
+
+  $(".button--large--quiet").click(function(){
+
+      console.log('set button clicked.');
+
+      var hour = document.getElementById('choose-hour').value;
+      var min = document.getElementById('choose-min').value;
+      var period = document.getElementById('choose-time').value;
+      var name = document.getElementById('alarmname').value;
+      var alarm =new Alarm(name, hour, min, period);
+
+      m.add_Alarm(alarm);
+      $("#mainmenu").show();
+      $("#addmenu").hide();
+
+    });
+
+  var main_view = new View(m);
   //var add_view = new addView(m);
 }
 

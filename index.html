@@ -27,39 +27,27 @@
 </head>
 
 <body onload="startApp()">
-<ons-splitter>
-  <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
-    <ons-page>
-      <ons-list>
-        <ons-list-item onclick="fn.load('home.html')" tappable>
-          Home
-        </ons-list-item>
-        <ons-list-item onclick="fn.load('settings.html')" tappable>
-          Settings
-        </ons-list-item>
-        <ons-list-item onclick="fn.load('about.html')" tappable>
-          About
-        </ons-list-item>
-      </ons-list>
-    </ons-page>
-  </ons-splitter-side>
-  <ons-splitter-content id="content" page="home.html"></ons-splitter-content>
-</ons-splitter>
 
-<ons-template id="home.html">
+
+<div id="mainmenu">
   <ons-page>
-    <ons-toolbar>
-      <div class="left">
-        <ons-toolbar-button onclick="fn.open()">
-          <ons-icon icon="md-menu"></ons-icon>
-        </ons-toolbar-button>
-      </div>
-      <div class="center">
-        Main
-      </div>
+      <ons-toolbar>
+
+        <div class="left">
+
+          <ons-toolbar-button> <!-- onclick="fn.open()" -->
+            <ons-icon icon="md-menu"></ons-icon>
+          </ons-toolbar-button>
+
+        </div>
+
+        <div class="center">
+          Main
+        </div>
+     </ons-toolbar>
+
 
 <!-- add botton -->
-  </ons-toolbar>
   <ons-fab position="bottom right">
     <ons-icon id = "addbutton" icon="md-plus" tappable> </ons-icon>
 
@@ -70,86 +58,48 @@
 <!-- lable list -->
   <ul class="list">
 
-  <li class="list__item">
-    <div class="list__item__center">
-      7:00
-    </div>
-    <div class="list__item__right">
-      <label class="switch">
+    <li class="list__item">
+      <div class="list__item__center">
+        7:00
+      </div>
+
+      <div class="list__item__right">
+        <label class="switch">
 
         <input type="checkbox" onclick="alarmstate('list__item')" class="switch__input" checked>
 
         <div class="switch__toggle">
           <div class="switch__handle"></div>
         </div>
-      </label>
-    </div>
-  </li>
+        </label>
+      </div>
+    </li>
 
   </ul>
-<!-- lable list -->
 
+</ons-page>
+</div>
 
-
-  </ons-page>
-</ons-template>
-
-<ons-template id="settings.html">
-  <ons-page>
-    <ons-toolbar>
-      <div class="left">
-        <ons-toolbar-button onclick="fn.open()">
-          <ons-icon icon="md-menu"></ons-icon>
-        </ons-toolbar-button>
-      </div>
-      <div class="center">
-        Settings
-      </div>
-    </ons-toolbar>
-  </ons-page>
-</ons-template>
-
-<ons-template id="about.html">
-  <ons-page>
-    <ons-toolbar>
-      <div class="left">
-        <ons-toolbar-button onclick="fn.open()">
-          <ons-icon icon="md-menu"></ons-icon>
-        </ons-toolbar-button>
-      </div>
-      <div class="center">
-        About
-      </div>
-    </ons-toolbar>
-  </ons-page>
-</ons-template>
 
 
 <!-- time picker -->
-<ons-template id="timeset.html">
-<ons-page>
-  <ons-toolbar>
-    <div class="center">New alarm</div>
-  </ons-toolbar>
+<div id="addmenu">
+  <ons-page>
 
+    <ons-toolbar>
+      <div class="center">New alarm</div>
+    </ons-toolbar>
 
-<h4>Set the time for new alarm:</h4>
-
+    <h4>Set the time for new alarm:</h4>
 
 <!-- name of alram -->
 <div style="text-align: center; margin-top: 30px;">
-
   <p>
     <ons-input id="alarmname" modifier="underbar" placeholder="alarm"></ons-input>
   </p>
-
 </div>
-<!-- name of alram -->
 
-
-
-
-<!-- name of alram -->
+<!-- time of alram -->
   <ons-select id="choose-hour">
     <option value="1">1</option>
     <option value="2">2</option>
@@ -181,12 +131,8 @@
 
 <!-- set button -->
   <button class="button--large--quiet" id = "setbutton">Set</button>
-<!-- set button -->
-
-  
-</ons-page>
-</ons-template>
-<!-- time picker -->
+  </ons-page>
+</div>
 
 
 
