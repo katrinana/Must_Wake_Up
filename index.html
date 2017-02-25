@@ -6,6 +6,7 @@
   <script src=
     "https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"
     type="text/javascript"></script>
+
   <script src="https://cdn.jsdelivr.net/lodash/4.17.1/lodash.min.js"></script>
   <link rel="stylesheet" type="text/css" href="style.css">
 
@@ -25,7 +26,7 @@
     <link rel="stylesheet" href="lib/framework7/dist/css/framework7.ios.colors.min.css">
 </head>
 
-<body>
+<body onload="startApp()">
 <ons-splitter>
   <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
     <ons-page>
@@ -60,12 +61,15 @@
 <!-- add botton -->
   </ons-toolbar>
   <ons-fab position="bottom right">
-    <ons-icon icon="md-plus" onclick="fn.load('timeset.html')" tappable> </ons-icon>
+    <ons-icon id = "addbutton" icon="md-plus" tappable> </ons-icon>
+
+    <!-- onclick="fn.load('timeset.html')" -->
   </ons-fab>
 <!-- add botton -->
 
 <!-- lable list -->
   <ul class="list">
+
   <li class="list__item">
     <div class="list__item__center">
       7:00
@@ -81,6 +85,7 @@
       </label>
     </div>
   </li>
+
   </ul>
 <!-- lable list -->
 
@@ -126,8 +131,25 @@
   <ons-toolbar>
     <div class="center">New alarm</div>
   </ons-toolbar>
-  <h4>Set the time for new alarm:</h4>
 
+
+<h4>Set the time for new alarm:</h4>
+
+
+<!-- name of alram -->
+<div style="text-align: center; margin-top: 30px;">
+
+  <p>
+    <ons-input id="alarmname" modifier="underbar" placeholder="alarm"></ons-input>
+  </p>
+
+</div>
+<!-- name of alram -->
+
+
+
+
+<!-- name of alram -->
   <ons-select id="choose-hour">
     <option value="1">1</option>
     <option value="2">2</option>
@@ -157,7 +179,10 @@
     <option value="PM">PM</option>
   </ons-select>
 
-  <button class="button--large--quiet"  onclick = "gettime()">Set</button>
+<!-- set button -->
+  <button class="button--large--quiet" id = "setbutton">Set</button>
+<!-- set button -->
+
   
 </ons-page>
 </ons-template>
@@ -165,8 +190,7 @@
 
 
 
- <script type="text/javascript" src="lib/framework7/dist/js/framework7.min.js"></script>
-
+<script type="text/javascript" src="lib/framework7/dist/js/framework7.min.js"></script>
 <script src="app.js"></script>
 
 </body>

@@ -447,3 +447,7 @@ input:disabled + .switch__toggle {
 .button--large--quiet:focus {
   outline: 0;
 }
+
+#choose-hour {
+  padding-left: 125px;
+}
