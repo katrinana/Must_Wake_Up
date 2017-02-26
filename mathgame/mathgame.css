@@ -1,0 +1,60 @@
+* {
+    font-family: Arial, "Free Sans";
+}
+body {
+    background: #fff url("circles.png") repeat right top;
+}
+#container {
+    margin: 0 auto;
+    text-align: center;
+}
+#dimcontainer {
+    padding: 2px;
+    margin: 0 auto;
+    left: 500px;
+}
+.boxnum {
+    text-align: center;
+    cursor: pointer;
+    border: 2px solid #e3e3e3;
+    background: #fff;
+    width: 70px;
+    height: 70px;
+    margin: 2px;
+    float: left;
+    color: #D80000;
+    -webkit-border-radius: .3em;
+    -moz-border-radius: .3em;
+    border-radius: .3em;
+}
+.boxnum:hover {
+    background: #e3e3e3;
+}
+.boxnum p {
+    margin-top: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    text-shadow: -1px 1px 1px #fff;
+}
+.red {
+    background: #ff0000;
+    border-color: #ff0000;
+}
+.red:hover {
+    background: #ff0000 !important;
+}
+#boxclear {
+    clear: both;
+}
+#pnext {
+    font-size: 18px;
+}
+#nextsum {
+    font-weight: bold;
+    font-size: 30px;
+    position: relative;
+    top: 3px;
+}
+#pick {
+    font-size: 18px;
+}
