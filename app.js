@@ -1,8 +1,5 @@
 
 
-function alarmstate(name){
-	console.log('switch button clicked', name);
-}
 
 function list_jquery(hour, min, period, name){
 
@@ -10,14 +7,12 @@ function list_jquery(hour, min, period, name){
   var item = hour + ':' + min + ' ' + period + ' ' + name;
   var end = '<div class="switch__toggle"> <div class="switch__handle"></div> </div> </label> </div> </li>';
 
-  var input = '<input type="checkbox" id=switch' + id + ' class="switch__input" checked>';
+  var input = '<input type="checkbox" id="'+ id + '" class="switch__input">';
 
-  var jquery = '<li class="list__item" id=' + id + '>' + '<div class="list__item__center">' + item + 
+  var jquery = '<li class="list__item" id="alarm' + id + '"><div class="list__item__center">' + item + 
   '</div> <div class="list__item__right"> <label class="switch">';
 
   jquery = jquery + input + end;
-
-  //console.log('jquery list ', jquery); 
 
   return jquery;
 }
@@ -43,11 +38,15 @@ function gettime() {
 }
 
 
-var Alarm = function(name, hour, min, period){
+var Alarm = function(name, hour, min, period, id){
   this.Name = name;
   this.Hour = hour;
   this.Min = min;
   this.period = period;
+  this.on = true;
+  this.id = id;
+  this.inStack = false;
+  this.tracker = 0;
 
   this.getName = function(){
     return this.Name;
@@ -65,10 +64,48 @@ var Alarm = function(name, hour, min, period){
     return this.period;
   }
 
+  this.getStatus = function() {
+    //this.on = $("#" + id).checked;
+    return this.on;
+  }
+
+  this.getId = function() {
+    return this.id;
+  }
+
+  this.getStack = function() {
+    return this.inStack;
+  }
+
+  this.getTracker = function() {
+    return this.tracker;
+  }
+
+  this.changeStatus = function() {
+    if (this.on == true) {
+      this.on = false;
+    } else {
+      this.on = true;
+    }
+    console.log("status changes to "+ this.on);
+  }
+
+  this.changeIn = function() {
+    if (this.inStack == true) {
+      this.inStack = false;
+    } else {
+      this.inStack = true;
+    }
+  }
+
+  this.setTracker = function(tra) {
+    this.tracker = tra;
+  }
 }   
 
 
 var Model = function(){
+  var that = this;
   this.allAlarm = [];
 
   //return the list of alarms
@@ -89,6 +126,18 @@ var Model = function(){
     return -1;
   }
 
+  this.get_index_by_id = function(id) {
+    for(var i = 0; i < this.allAlarm.length; i++){
+      alarm = this.allAlarm[i];
+
+      if(alarm.getId() == id) {
+        console.log("hahahahahahahahahaha");
+        return i;
+      }
+    }
+    return -1;
+  }
+
    //add new alarm to model
   this.add_Alarm = function(alarm){
     this.allAlarm.push(alarm);
@@ -100,6 +149,18 @@ var Model = function(){
     this.allAlarm.splice(index, 1);
     this.notify();
   }
+
+  this.change_Alarm = function(id) {
+    var i = this.get_index_by_id(id);
+    console.log("this alarm changed " + i + " " + id);
+    this.allAlarm[i].changeStatus();
+    //console.log($('#'+id).prop('checked'));
+    $('#'+id).attr('checked', this.allAlarm[i].getStatus());
+    //console.log($('#'+id).prop('checked'));
+    this.notify();
+  }
+
+
 }
 
 
@@ -130,9 +191,7 @@ var View = function(Model){
   var that = this;
   this.updateView = function(obs, args){
     var allAlarm = Model.get_Allalarm();
-
     $(".list").empty();
-
     for(var i = 0; i < allAlarm.length; i++){
       var alarm = allAlarm[i];
 
@@ -140,96 +199,230 @@ var View = function(Model){
       var min = alarm.getMin();
       var period = alarm.getPeriod();
       var name = alarm.getName();
+      var id = alarm.getId();
 
       var jquery = list_jquery(hour, min, period, name);
-
       $(".list").append(jquery);
+      $('#'+id).attr('checked', alarm.getStatus());
 
-      id ='switch' + hour + min + period;
-
-      $(document).ready(function(){
-        $('#'+id).click(function(){
-          console.log('clicked ', id);
-        });
-      });
-
+  
     }
+    $(".list").find(".switch__input").click(function() {
+      console.log(this.id + "switched !!!!");
+      var status = Model.change_Alarm(this.id);
+    })
 
   }
 
   Model.addObserver(this.updateView);
 }
 
-var addView = function(Model){
-  this.updateView = function(obs, args){
+function gameSuccess(game) {
+  pauseAudio();
+  $("#"+game).hide();
+  $("#mainmenu").show();
+}
 
-    $(".button--large--quiet").click(function(){
-
-        console.log('set button clicked.');
-
-      var hour = document.getElementById('choose-hour').value;
-      var min = document.getElementById('choose-min').value;
-      var period = document.getElementById('choose-time').value;
-      var name = document.getElementById('alarmname').value;
-
-      var alarm = Alarm(name, hour, min, period);
-
-      Model.add_Alarm(alarm);
-
-      $("#mainmenu").show();
-      $("#addmenu").hide();
-
-    });
-
-
-    $('#addbutton').click(function(){
-      console.log('add button clicked.');
-
-      $("#mainmenu").hide();
-      $("#addmenu").show();
-    });
-
-
+/* type game */ 
+function genSentence() {
+  var ran = Math.floor(Math.random() * 10);
+    switch (ran) {
+      case 0:
+        return "A little progress each day adds up to big results";
+      case 1:
+        return "Be the best version of you";
+      case 2:
+        return "You have to fight though the bad days to earn the best days";
+      case 3:
+        return "Push harder than yesterday if you want a different tomorrow";
+      case 4:
+        return "Stay positive work hard and make it happen";
+      case 5:
+        return "The struggle you're in today is developing the strength you need for tomorrow";
+      case 6:
+        return "There is no elevator to success. You have to take the stairs";
+      case 7:
+        return "Stop saying I wish and start saying I will";
+      case 8:
+        return "Once you control your mind you can conquer your body";
+      case 9:
+        return "When you feel like fiving up, think about why you started";
+    }
   }
+
+var trueSentence = genSentence();
+document.getElementById("sentence").innerHTML = trueSentence;
+function confirm() {
+  var userSentence = document.getElementById('typeBar').value;
+  if (userSentence == trueSentence) {
+    gameSuccess("selectmenu");
+    trueSentence = genSentence();
+    document.getElementById("sentence").innerHTML = trueSentence;
+  } else {
+    alert("FAIL");
+  }
+  document.getElementById('typeBar').value = null;
+}
+/* type game the end */
+
+
+
+// Play audio
+function playAudio(src) {
+  // Create Media object from src
+  my_media = new Audio(src);
+  if (typeof my_media.loop == 'boolean') {
+      my_media.loop = true;
+  } else {
+      my_media.addEventListener('ended', function() {
+          this.currentTime = 0;
+          this.play();
+      }, false);
+  }
+  my_media.play();
+}
+
+// Pause audio 
+function pauseAudio() {
+  if (my_media == null) {
+      console.log("my_media is null");
+  }
+  my_media.pause();
+}
+
+function alarmAudio(hrs, mins, id, tracker) {
+  var time = new Date();
+  var currentHrs = time.getHours();
+  var currentMin = time.getMinutes();
+  if (hrs == currentHrs && mins == currentMin && time.getSeconds() == 0) {
+    playAudio('Rooster.mp3');
+    console.log("set "+ hrs + " " + mins);
+    $("#selectmenu").show();
+    $("#mainmenu").hide();
+    $("#addmenu").hide();
+    //$('#'+id).attr('checked', false);
+  }
+  tracker = setTimeout('alarmAudio('+hrs+', '+mins+', "'+id+'")', 1000);
+  return tracker;
+  console.log("tracker is " + tracker);
 }
 
 
+
+var audioView = function(Model) {
+  var that = this;
+  /*this.playAudio = function(src) {
+    my_media = new Audio(src);
+    if (typeof my_media.loop == 'boolean') {
+        my_media.loop = true;
+    } else {
+        my_media.addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        }, false);
+    }
+    my_media.play();
+  };
+
+  this.pauseAudio = function() {
+    if (my_media == null) {
+        console.log("my_media is null");
+    }
+    my_media.pause();
+  };
+
+  this.alarmAudio = function(hrs, mins) {
+    var time = new Date();
+    var currentHrs = time.getHours();
+    var currentMin = time.getMinutes();
+    //console.log("current "+ currentHrs + " " + currentMin);
+    if (hrs == currentHrs && mins == currentMin && time.getSeconds() == 0) {
+      alter("time out ~~~");
+      playAudio('Rooster.mp3');
+    }
+    setTimeout("this.alarmAudio("+hrs+", "+mins+")", 1000);
+  };*/
+
+  this.updateView = function() {
+    //console.log("enter playAlarmSound ");
+    var all_alarm = Model.get_Allalarm();
+    var len = all_alarm.length;
+    for(var i = 0; i < all_alarm.length; i++) {
+      var alarm = all_alarm[i];
+      var alarmHrs = alarm.getHour();
+      var alarmMins = alarm.getMin();
+      var alarmId = alarm.getId();
+      var tracker = alarm.getTracker();
+      if (alarm.getPeriod() == "PM") {
+        console.log("pm");
+        var numHrs = parseInt(alarmHrs)+12;
+      }
+      if (alarm.getStatus() == true && alarm.getStack() == false) {
+        console.log("enter playAlarmSound "+alarmId);
+        tracker = alarmAudio(numHrs, alarmMins, alarmId, tracker);
+        alarm.changeIn();
+        /*if (bool == true) {
+          console.log("game success");
+          
+          Model.change_Alarm(alarmId);
+        }*/
+      }
+      if (alarm.getStatus() == false && alarm.getStack() == true) {
+        console.log("this alarm will stop "+ alarmId);
+        console.log("before stop tracker is " + tracker);
+        clearTimeout(tracker);
+        tracker = 0;
+        alarm.setTracker(tracker);
+
+        console.log("clear stop tracker is " + tracker);
+        alarm.changeIn();
+      }
+    }
+  };
+
+  Model.addObserver(this.updateView);
+
+}
+
 function startApp(){
-  console.log('start app.');
+  //console.log('start app.');
   var m = new Model();
 
 
   $("#mainmenu").show();
   $("#addmenu").hide();
- 
+  $("#selectmenu").hide();
 
+
+//button connect to the add alram menu
   $('#addbutton').click(function(){
-      console.log('add button clicked.');
-
+      //console.log('add button clicked.');
       $("#mainmenu").hide();
       $("#addmenu").show();
+      $("#selectmenu").hide();
   });
 
 
 
   $(".button--large--quiet").click(function(){
-
       console.log('set button clicked.');
-
       var hour = document.getElementById('choose-hour').value;
       var min = document.getElementById('choose-min').value;
       var period = document.getElementById('choose-time').value;
       var name = document.getElementById('alarmname').value;
-      var alarm =new Alarm(name, hour, min, period);
-
+      var id = hour + min + period;
+      var alarm =new Alarm(name, hour, min, period, id);
       m.add_Alarm(alarm);
+
       $("#mainmenu").show();
       $("#addmenu").hide();
 
     });
 
+
+
   var main_view = new View(m);
-  //var add_view = new addView(m);
+  var sound_view = new audioView(m);
 }
 
 
