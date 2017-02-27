@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-
+        <script type="text/javascript" src="lib/jquery-1.6.4.min.js"></script>
+        <script type="text/javascript" src="lib/jquery-ui-1.8.9.custom.min.js"></script>
   <script src=
     "https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"
     type="text/javascript"></script>
@@ -195,27 +196,124 @@
 
 <!-- type game -->
 <div id="selectmenu">
-  <ons-page>
-    <ons-toolbar>
-      <div class="center">Type Sentence</div>
-    </ons-toolbar>
-
-    <div style="text-align: center; margin-top: 20px;">
-      <h4 id="sentence"></h4>
-    </div>
-
-    <div style="text-align: center; margin-top: 30px;">
-      <p>
-        <ons-input id="typeBar" modifier="underbar" placeholder="Type here"></ons-input>
-      </p>
-      <p style="margin-top: 3px;">
-        <ons-button onclick="confirm()">Confirm</ons-button>
-      </p>
-      <p id="result"></p>
-    </div>
-  </ons-page>
+    <ons-page>
+        <ons-toolbar>
+            <div class="center">Type Sentence</div>
+        </ons-toolbar>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <h4 id="sentence"></h4>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <p>
+            <ons-input id="typeBar" modifier="underbar" placeholder="Type here"></ons-input>
+            </p>
+            <p style="margin-top: 3px;">
+            <ons-button onclick="confirm()">Confirm</ons-button>
+            </p>
+            <p id="result"></p>
+        </div>
+    </ons-page>
 </div> 
 <!-- type game -->
+
+
+<!-- math game -->
+<div id="mathgame">
+    <ons-page>
+        <style type="text/css" >
+            * {
+                font-family: Arial, "Free Sans";
+            }
+        body {
+            background: #fff url("circles.png") repeat right top;
+        }
+        #container {
+            margin: 0 auto;
+            text-align: center;
+        }
+        #dimcontainer {
+            padding: 2px;
+            margin: 0 auto;
+            left: 500px;
+        }
+        
+        .boxnum {
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid #e3e3e3;
+            background: #fff;
+            width: 70px;
+            height: 70px;
+            margin: 2px;
+            float: left;
+            color: #D80000;
+            -webkit-border-radius: .3em;
+            -moz-border-radius: .3em;
+            border-radius: .3em;
+        }
+        .boxnum:hover {
+            background: #e3e3e3;
+        }
+        .boxnum p {
+            margin-top: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            text-shadow: -1px 1px 1px #fff;
+        }
+        .red {
+            background: #ff0000;
+            border-color: #ff0000;
+        }
+        .red:hover {
+            background: #ff0000 !important;
+        }
+        #boxclear {
+            clear: both;
+        }
+        #pnext {
+            font-size: 18px;
+        }
+        #nextsum {
+            font-weight: bold;
+            font-size: 30px;
+            position: relative;
+            top: 3px;
+        }
+        #pick {
+            font-size: 18px;
+        }
+        #btnstart {
+            font-size: 30px;
+            font-weight: bold;
+            font-family: italic;
+            color: blue;
+        }
+        
+        
+            </style>
+        </head>
+        <body>
+            
+            <div id="container">
+                <div>
+                    <ons-button id="btnstart" onclick="start();">Sum Game</ons-button>
+                </div>
+                <p id="pnext">&nbsp;<span id="nextsum"></span></p>
+                
+                <div id="dimcontainer">
+                    <div id="boxclear" style="clear:both"></div>
+                </div>
+                <br>
+                <p1> Hint: sum several numbers to the required </p1>
+            </div>
+            </ons-page>
+</div>
+
+
+
+<!-- math game -->
 
 
 
