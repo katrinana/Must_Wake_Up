@@ -18,26 +18,6 @@ function list_jquery(hour, min, period, name){
 }
 
 
-
-function gettime() {
-  var h = document.getElementById('choose-hour').value;
-  var m = document.getElementById('choose-min').value;
-  var zone = document.getElementById('choose-time').value;
-  var name = document.getElementById('alarmname').value;
-
-  console.log('hour is', h);
-  console.log('min is', m);
-  console.log("AM PM is ", zone);
-  console.log("alarm name is ", name);
-
-  var output = list_jquery(h, m, zone, name);
-
-  console.log('jquery is : ', output);
-
-
-}
-
-
 var Alarm = function(name, hour, min, period, id){
   this.Name = name;
   this.Hour = hour;
@@ -87,7 +67,6 @@ var Alarm = function(name, hour, min, period, id){
     } else {
       this.on = true;
     }
-    console.log("status changes to "+ this.on);
   }
 
   this.changeIn = function() {
@@ -131,7 +110,6 @@ var Model = function(){
       alarm = this.allAlarm[i];
 
       if(alarm.getId() == id) {
-        console.log("hahahahahahahahahaha");
         return i;
       }
     }
@@ -152,11 +130,8 @@ var Model = function(){
 
   this.change_Alarm = function(id) {
     var i = this.get_index_by_id(id);
-    console.log("this alarm changed " + i + " " + id);
     this.allAlarm[i].changeStatus();
-    //console.log($('#'+id).prop('checked'));
     $('#'+id).attr('checked', this.allAlarm[i].getStatus());
-    //console.log($('#'+id).prop('checked'));
     this.notify();
   }
 
@@ -208,7 +183,6 @@ var View = function(Model){
   
     }
     $(".list").find(".switch__input").click(function() {
-      console.log(this.id + "switched !!!!");
       var status = Model.change_Alarm(this.id);
     })
 
@@ -228,25 +202,25 @@ function genSentence() {
   var ran = Math.floor(Math.random() * 10);
     switch (ran) {
       case 0:
-        return "A little progress each day adds up to big results";
+        return "A";
       case 1:
-        return "Be the best version of you";
+        return "B";
       case 2:
-        return "You have to fight though the bad days to earn the best days";
+        return "Y";
       case 3:
-        return "Push harder than yesterday if you want a different tomorrow";
+        return "P";
       case 4:
-        return "Stay positive work hard and make it happen";
+        return "S";
       case 5:
-        return "The struggle you're in today is developing the strength you need for tomorrow";
+        return "T";
       case 6:
-        return "There is no elevator to success. You have to take the stairs";
+        return "C";
       case 7:
-        return "Stop saying I wish and start saying I will";
+        return "D";
       case 8:
-        return "Once you control your mind you can conquer your body";
+        return "O";
       case 9:
-        return "When you feel like fiving up, think about why you started";
+        return "W";
     }
   }
 
@@ -296,55 +270,21 @@ function alarmAudio(hrs, mins, id, tracker) {
   var currentMin = time.getMinutes();
   if (hrs == currentHrs && mins == currentMin && time.getSeconds() == 0) {
     playAudio('Rooster.mp3');
-    console.log("set "+ hrs + " " + mins);
     $("#selectmenu").show();
     $("#mainmenu").hide();
     $("#addmenu").hide();
     //$('#'+id).attr('checked', false);
   }
-  tracker = setTimeout('alarmAudio('+hrs+', '+mins+', "'+id+'")', 1000);
+  tracker = setTimeout('alarmAudio('+hrs+', '+mins+', "'+id+'", '+tracker+')', 1000);
   return tracker;
-  console.log("tracker is " + tracker);
 }
 
 
 
 var audioView = function(Model) {
   var that = this;
-  /*this.playAudio = function(src) {
-    my_media = new Audio(src);
-    if (typeof my_media.loop == 'boolean') {
-        my_media.loop = true;
-    } else {
-        my_media.addEventListener('ended', function() {
-            this.currentTime = 0;
-            this.play();
-        }, false);
-    }
-    my_media.play();
-  };
-
-  this.pauseAudio = function() {
-    if (my_media == null) {
-        console.log("my_media is null");
-    }
-    my_media.pause();
-  };
-
-  this.alarmAudio = function(hrs, mins) {
-    var time = new Date();
-    var currentHrs = time.getHours();
-    var currentMin = time.getMinutes();
-    //console.log("current "+ currentHrs + " " + currentMin);
-    if (hrs == currentHrs && mins == currentMin && time.getSeconds() == 0) {
-      alter("time out ~~~");
-      playAudio('Rooster.mp3');
-    }
-    setTimeout("this.alarmAudio("+hrs+", "+mins+")", 1000);
-  };*/
 
   this.updateView = function() {
-    //console.log("enter playAlarmSound ");
     var all_alarm = Model.get_Allalarm();
     var len = all_alarm.length;
     for(var i = 0; i < all_alarm.length; i++) {
@@ -354,27 +294,19 @@ var audioView = function(Model) {
       var alarmId = alarm.getId();
       var tracker = alarm.getTracker();
       if (alarm.getPeriod() == "PM") {
-        console.log("pm");
         var numHrs = parseInt(alarmHrs)+12;
       }
       if (alarm.getStatus() == true && alarm.getStack() == false) {
-        console.log("enter playAlarmSound "+alarmId);
         tracker = alarmAudio(numHrs, alarmMins, alarmId, tracker);
+        alarm.setTracker(tracker);
         alarm.changeIn();
-        /*if (bool == true) {
-          console.log("game success");
-          
-          Model.change_Alarm(alarmId);
-        }*/
       }
       if (alarm.getStatus() == false && alarm.getStack() == true) {
-        console.log("this alarm will stop "+ alarmId);
-        console.log("before stop tracker is " + tracker);
         clearTimeout(tracker);
         tracker = 0;
         alarm.setTracker(tracker);
 
-        console.log("clear stop tracker is " + tracker);
+        
         alarm.changeIn();
       }
     }
@@ -385,7 +317,6 @@ var audioView = function(Model) {
 }
 
 function startApp(){
-  //console.log('start app.');
   var m = new Model();
 
 
