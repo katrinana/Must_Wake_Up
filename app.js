@@ -1,7 +1,7 @@
 
 
 
-function list_jquery(hour, min, period, name){
+/*function list_jquery(hour, min, period, name){
 
   var id = hour + min + period;
   var item = hour + ':' + min + ' ' + period + ' ' + name;
@@ -15,7 +15,36 @@ function list_jquery(hour, min, period, name){
   jquery = jquery + input + end;
 
   return jquery;
+}*/
+
+function list_jquery(hour, min, period, name){
+
+  var id = hour + min + period;
+  var item = hour + ':' + min + ' ' + period + ' ' + name;
+  var input_end = '<div class="switch__toggle"> <div class="switch__handle"></div> </div> </label> </div>';
+
+  var input = '<input type="checkbox" id="'+ id + '" class="switch__input" checked>';
+  var act_edit   = '<div class="swipeout-actions-left">' + '<a href="#" class="action2" id="edit_"' +id + '>Edit</a></div>';
+  var act_delete = '<div class="swipeout-actions-right">' + '<a href="#" class="swipeout-delete" id ="delete_"' + id +'>Delete</a></div></li>';
+
+  var jquery = '<li class="swipeout">' + '<div class="swipeout-content item-content">' + ' <div class="list__item__center">' + item + 
+  '</div> <div class="list__item__right"> <label class="switch">';
+
+  jquery = jquery + input + input_end + act_edit + act_delete;
+
+  return jquery;
 }
+
+var myApp = new Framework7();
+ 
+var $$ = Dom7;
+ 
+$$('.action1').on('click', function () {
+  myApp.alert('Action 1');
+});
+$$('.action2').on('click', function () {
+  myApp.alert('Action 2');
+});  
 
 
 var Alarm = function(name, hour, min, period, id){
