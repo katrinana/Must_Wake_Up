@@ -55,6 +55,15 @@ var Alarm = function(name, hour, min, period, id, game, music){
   this.on = true;
   this.id = id;
   this.game = game;
+  if (music == 1) {
+    this.music = new Audio('Rooster.mp3');
+    } else if (music == 2) {
+      this.music = new Audio('Alarm-tone.mp3');
+    } else if (music == 3) {
+      this.music = new Audio('Coo.mp3');
+    } else if (music == 4) {
+      this.music = new Audio('clock.mp3');
+    }
   this.music = music;
   this.inStack = false;
   this.tracker = 0;
@@ -89,6 +98,7 @@ var Alarm = function(name, hour, min, period, id, game, music){
   }
 
   this.getMusic = function() {
+
     return this.music;
   }
 
@@ -252,25 +262,25 @@ function genSentence() {
   var ran = Math.floor(Math.random() * 10);
     switch (ran) {
       case 0:
-        return "A";
+        return "A little progress each day adds up to big results";
       case 1:
-        return "B";
+        return "Be the best version of you";
       case 2:
-        return "Y";
+        return "You have to fight though the bad days to earn the best days";
       case 3:
-        return "P";
+        return "Push harder than yesterday if you want a different tomorrow";
       case 4:
-        return "S";
+        return "Stay positive work hard and make it happen";
       case 5:
-        return "T";
+        return "The struggle you're in today is developing the strength you need for tomorrow";
       case 6:
-        return "C";
+        return "There is no elevator to success. You have to take the stairs";
       case 7:
-        return "D";
+        return "Stop saying I wish and start saying I will";
       case 8:
-        return "O";
+        return "Once you control your mind you can conquer your body";
       case 9:
-        return "W";
+        return "When you feel like fiving up, think about why you started";
     }
   }
 
