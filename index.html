@@ -188,8 +188,28 @@
     <option value="PM">PM</option>
   </ons-select>
 
+  <p>
+  <ons-select id="choose-game" style="padding-left:130px">
+    <option value="0">--select game--</option>
+    <option value="1">type sentance</option>
+    <option value="2">math game</option>
+    <option value="3">jump</option>
+    <option value="4">photo</option>
+  </ons-select>
+  </p>
+
+  <p>
+  <ons-select id="choose-music" style="padding-left:130px">
+    <option value="0">--select music--</option>
+    <option value="1">Rooster</option>
+    <option value="2">music2</option>
+    <option value="3">music3</option>
+    <option value="4">music4</option>
+  </ons-select>
+  </p>
+
 <!-- set button -->
-  <button class="button--large--quiet" id = "setbutton">Set</button>
+  <button class="button--large--quiet" id="setbutton" style="padding:40px">Set</button>
   </ons-page>
 </div>
 
@@ -314,6 +334,25 @@
 
 
 <!-- math game -->
+
+<!-- jump -->
+<div id="jump">
+  <ons-page>
+    <p> This is a fake jump game </p>
+    <ons-button onclick="endgame(1)">End Game</ons-button>
+  </ons-page>
+</div>
+<!-- jump end -->
+
+<!-- photo -->
+<div id="photo">
+  <ons-page>
+  <p> This is a fake photo game </p>
+  <ons-button onclick="endgame(2)">End Game</ons-button>
+  </ons-page>
+</div>
+<!-- photo end -->
+
 
 
 

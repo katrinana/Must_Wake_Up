@@ -23,7 +23,7 @@ function list_jquery(hour, min, period, name){
   var item = hour + ':' + min + ' ' + period + ' ' + name;
   var input_end = '<div class="switch__toggle"> <div class="switch__handle"></div> </div> </label> </div>';
 
-  var input = '<input type="checkbox" id="'+ id + '" class="switch__input" checked>';
+  var input = '<input type="checkbox" id='+ id + ' class="switch__input" checked>';
   var act_edit   = '<div class="swipeout-actions-left">' + '<a href="#" class="action2" id="edit_"' +id + '>Edit</a></div>';
   var act_delete = '<div class="swipeout-actions-right">' + '<a href="#" class="swipeout-delete" id ="delete_"' + id +'>Delete</a></div></li>';
 
@@ -47,13 +47,15 @@ $$('.action2').on('click', function () {
 });  
 
 
-var Alarm = function(name, hour, min, period, id){
+var Alarm = function(name, hour, min, period, id, game, music){
   this.Name = name;
   this.Hour = hour;
   this.Min = min;
   this.period = period;
   this.on = true;
   this.id = id;
+  this.game = game;
+  this.music = music;
   this.inStack = false;
   this.tracker = 0;
 
@@ -80,6 +82,14 @@ var Alarm = function(name, hour, min, period, id){
 
   this.getId = function() {
     return this.id;
+  }
+
+  this.getGame = function() {
+    return this.game;
+  }
+
+  this.getMusic = function() {
+    return this.music;
   }
 
   this.getStack = function() {
@@ -212,6 +222,7 @@ var View = function(Model){
   
     }
     $(".list").find(".switch__input").click(function() {
+      console.log("switch button click");
       var status = Model.change_Alarm(this.id);
     })
 
@@ -224,6 +235,16 @@ function gameSuccess(game) {
   pauseAudio();
   $("#"+game).hide();
   $("#mainmenu").show();
+}
+
+
+/* fake now */
+function endgame(num) {
+  if (num == 1) {
+    gameSuccess("jump");
+  } if (num == 2) {
+    gameSuccess("photo");
+  }
 }
 
 /* type game */ 
@@ -483,19 +504,35 @@ function pauseAudio() {
   my_media.pause();
 }
 
-function alarmAudio(hrs, mins, id, tracker) {
+function alarmAudio(hrs, mins, id, game, music) {
   var time = new Date();
   var currentHrs = time.getHours();
   var currentMin = time.getMinutes();
   if (hrs == currentHrs && mins == currentMin && time.getSeconds() == 0) {
-    playAudio('Rooster.mp3');
-    $("#mathgame").show();
-                    $("#selectmenu").hide();
+    if (music == 1) {
+      playAudio('Rooster.mp3');
+    } else if (music == 2) {
+      playAudio('Alarm-tone.mp3');
+    } else if (music == 3) {
+      playAudio('Coo.mp3');
+    } else if (music == 4) {
+      playAudio('clock.mp3');
+    }
+
+    if (game == 1) {
+      $("#selectmenu").show();
+    } else if (game == 2) {
+      $("#mathgame").show();
+    } else if (game == 3) {
+      $("#jump").show();
+    } else if (game == 4) {
+      $("#photo").show();
+    }
     $("#mainmenu").hide();
     $("#addmenu").hide();
     //$('#'+id).attr('checked', false);
   }
-  tracker = setTimeout('alarmAudio('+hrs+', '+mins+', "'+id+'", '+tracker+')', 1000);
+  var tracker = setTimeout('alarmAudio('+hrs+', '+mins+', "'+id+'", '+game+', '+music+')', 1000);
   return tracker;
 }
 
@@ -512,19 +549,24 @@ var audioView = function(Model) {
       var alarmHrs = alarm.getHour();
       var alarmMins = alarm.getMin();
       var alarmId = alarm.getId();
-      var tracker = alarm.getTracker();
+      var game = alarm.getGame();
+      var music = alarm.getMusic();
+      //var tracker = alarm.getTracker();
+      console.log("enter queue: " + alarmId);
       if (alarm.getPeriod() == "PM") {
         var numHrs = parseInt(alarmHrs)+12;
       }
       if (alarm.getStatus() == true && alarm.getStack() == false) {
-        tracker = alarmAudio(numHrs, alarmMins, alarmId, tracker);
+        var tracker = alarmAudio(numHrs, alarmMins, alarmId, game, music);
         alarm.setTracker(tracker);
         alarm.changeIn();
       }
       if (alarm.getStatus() == false && alarm.getStack() == true) {
-        clearTimeout(tracker);
-        tracker = 0;
-        alarm.setTracker(tracker);
+        console.log(alarmId+ "is going to stop and its tracker is " + alarm.getTracker());
+        clearTimeout(alarm.getTracker());
+        var newtracker = 0;
+        alarm.setTracker(newtracker);
+        console.log("after clearTimeout tracker is " + alarm.getTracker());
 
         
         alarm.changeIn();
@@ -543,8 +585,9 @@ function startApp(){
   $("#mainmenu").show();
   $("#addmenu").hide();
   $("#selectmenu").hide();
-            $("#mathgame").hide();
-
+  $("#mathgame").hide();
+  $("#jump").hide();
+  $("#photo").hide();
 
 //button connect to the add alram menu
   $('#addbutton').click(function(){
@@ -552,7 +595,7 @@ function startApp(){
       $("#mainmenu").hide();
       $("#addmenu").show();
       $("#selectmenu").hide();
-                                $("#mathgame").hide();
+      $("#mathgame").hide();
   });
 
 
@@ -566,12 +609,18 @@ function startApp(){
       var min = document.getElementById('choose-min').value;
       var period = document.getElementById('choose-time').value;
       var name = document.getElementById('alarmname').value;
+      var game = document.getElementById('choose-game').value;
+      var music = document.getElementById('choose-music').value;
       var id = hour + min + period;
-      var alarm =new Alarm(name, hour, min, period, id);
-      m.add_Alarm(alarm);
-
-      $("#mainmenu").show();
-      $("#addmenu").hide();
+      if (music == 0 || game == 0) {
+        alert("you must choose a game and music");
+      } else {
+        var alarm =new Alarm(name, hour, min, period, id, game, music);
+        m.add_Alarm(alarm);
+  
+        $("#mainmenu").show();
+        $("#addmenu").hide();
+      }
 
     });
 
