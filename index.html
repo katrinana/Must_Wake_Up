@@ -23,7 +23,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <!-- Your app title -->
-    <title>My App</title>
+    <title>Must Wake Up</title>
     <!-- Path to Framework7 iOS CSS theme styles-->
     <link rel="stylesheet" href="lib/framework7/dist/css/framework7.ios.min.css">
     <!-- Path to Framework7 iOS related color styles -->
@@ -46,7 +46,7 @@
         </div>
 
         <div class="center">
-          Main
+          Alram
         </div>
      </ons-toolbar>
 
@@ -99,7 +99,7 @@
 <!-- name of alram -->
 <div style="text-align: center; margin-top: 30px;">
   <p>
-    <ons-input id="alarmname" modifier="underbar" placeholder="alarm"></ons-input>
+    <ons-input id="alarmname" modifier="underbar" placeholder="Alarm Name"></ons-input>
   </p>
 </div>
 
@@ -190,26 +190,28 @@
 
   <p>
   <ons-select id="choose-game" style="padding-left:130px">
-    <option value="0">--select game--</option>
     <option value="1">type sentance</option>
     <option value="2">math game</option>
-    <option value="3">jump</option>
-    <option value="4">photo</option>
+    <option value="3" disabled>jump</option>
+    <option value="4" disabled>photo</option>
   </ons-select>
   </p>
 
   <p>
   <ons-select id="choose-music" style="padding-left:130px">
-    <option value="0">--select music--</option>
     <option value="1">Rooster</option>
-    <option value="2">music2</option>
-    <option value="3">music3</option>
-    <option value="4">music4</option>
+    <option value="2">Alarm-tone</option>
+    <option value="3">Coo</option>
+    <option value="4">clock</option>
   </ons-select>
   </p>
 
 <!-- set button -->
-  <button class="button--large--quiet" id="setbutton" style="padding:40px">Set</button>
+
+  <button class="button--large--quiet" id="setbutton" style="padding:15px">Set</button>
+  <button class="button--large--quiet" id="backbutton" style="padding:15px">Cancel</button>
+
+
   </ons-page>
 </div>
 
@@ -227,7 +229,7 @@
         
         <div style="text-align: center; margin-top: 30px;">
             <p>
-            <ons-input id="typeBar" modifier="underbar" placeholder="Type here"></ons-input>
+            <ons-input id="typeBar" modifier="underbar" placeholder="Type The Sentence"></ons-input>
             </p>
             <p style="margin-top: 3px;">
             <ons-button onclick="confirm()">Confirm</ons-button>

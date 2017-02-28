@@ -510,13 +510,13 @@ function alarmAudio(hrs, mins, id, game, music) {
   var currentMin = time.getMinutes();
   if (hrs == currentHrs && mins == currentMin && time.getSeconds() == 0) {
     if (music == 1) {
-      playAudio('Rooster.mp3');
+      playAudio('/music/Rooster.mp3');
     } else if (music == 2) {
-      playAudio('Alarm-tone.mp3');
+      playAudio('/music/Alarm-tone.mp3');
     } else if (music == 3) {
-      playAudio('Coo.mp3');
+      playAudio('/music/Coo.mp3');
     } else if (music == 4) {
-      playAudio('clock.mp3');
+      playAudio('/music/clock.mp3');
     }
 
     if (game == 1) {
@@ -581,16 +581,19 @@ var audioView = function(Model) {
 function startApp(){
   var m = new Model();
 
-
-  $("#mainmenu").show();
   $("#addmenu").hide();
   $("#selectmenu").hide();
   $("#mathgame").hide();
   $("#jump").hide();
   $("#photo").hide();
+  $("#mainmenu").show();
+  
 
 //button connect to the add alram menu
   $('#addbutton').click(function(){
+
+    document.getElementById('alarmname').value = null;
+
       //console.log('add button clicked.');
       $("#mainmenu").hide();
       $("#addmenu").show();
@@ -600,7 +603,7 @@ function startApp(){
 
 
 
-  $(".button--large--quiet").click(function(){
+  $("#setbutton").click(function(){
       console.log('set button clicked.');
       var hour = document.getElementById('choose-hour').value;
                                    //console.log(hour);
@@ -617,12 +620,23 @@ function startApp(){
       } else {
         var alarm =new Alarm(name, hour, min, period, id, game, music);
         m.add_Alarm(alarm);
-  
-        $("#mainmenu").show();
-        $("#addmenu").hide();
+
+    document.getElementById('alarmname').value = null;
+
+      $("#mainmenu").show();
+      $("#addmenu").hide();
       }
 
     });
+
+  $("#backbutton").click(function(){
+
+    document.getElementById('alarmname').value = null;
+
+    $("#mainmenu").show();
+    $("#addmenu").hide();
+
+  });
 
 
 
