@@ -504,19 +504,20 @@ function pauseAudio() {
   my_media.pause();
 }
 
+
 function alarmAudio(hrs, mins, id, game, music) {
   var time = new Date();
   var currentHrs = time.getHours();
   var currentMin = time.getMinutes();
   if (hrs == currentHrs && mins == currentMin && time.getSeconds() == 0) {
     if (music == 1) {
-      playAudio('/music/Rooster.mp3');
+      playAudio('Rooster.mp3');
     } else if (music == 2) {
-      playAudio('/music/Alarm-tone.mp3');
+      playAudio('Alarm-tone.mp3');
     } else if (music == 3) {
-      playAudio('/music/Coo.mp3');
+      playAudio('Coo.mp3');
     } else if (music == 4) {
-      playAudio('/music/clock.mp3');
+      playAudio('clock.mp3');
     }
 
     if (game == 1) {
@@ -599,6 +600,17 @@ function startApp(){
       $("#addmenu").show();
       $("#selectmenu").hide();
       $("#mathgame").hide();
+      var time = new Date();
+      var currentHrs = time.getHours();
+      var currentMin = time.getMinutes();
+      if (currentHrs > 12) {
+        $("#choose-hour").val(currentHrs-12);
+        $("#choose-time").val("PM");
+      } else {
+        $("#choose-hour").val(currentHrs);
+        $("#choose-time").val("AM");
+      }
+      $("#choose-min").val(currentMin);
   });
 
 
@@ -615,17 +627,13 @@ function startApp(){
       var game = document.getElementById('choose-game').value;
       var music = document.getElementById('choose-music').value;
       var id = hour + min + period;
-      if (music == 0 || game == 0) {
-        alert("you must choose a game and music");
-      } else {
-        var alarm =new Alarm(name, hour, min, period, id, game, music);
-        m.add_Alarm(alarm);
+      var alarm =new Alarm(name, hour, min, period, id, game, music);
+      m.add_Alarm(alarm);
 
-    document.getElementById('alarmname').value = null;
+      document.getElementById('alarmname').value = null;
 
       $("#mainmenu").show();
       $("#addmenu").hide();
-      }
 
     });
 
