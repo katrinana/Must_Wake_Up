@@ -273,17 +273,28 @@ function genSentence() {
   }
 
 var trueSentence = genSentence();
+var typeGameEnd = false;
 document.getElementById("sentence").innerHTML = trueSentence;
-function confirm(music) {
+function confirm() {
+  console.log("click confirm");
   var userSentence = document.getElementById('typeBar').value;
   if (userSentence == trueSentence) {
-    gameSuccess("selectmenu", music);
-    trueSentence = genSentence();
-    document.getElementById("sentence").innerHTML = trueSentence;
-  } else {
-    alert("FAIL");
-  }
-  document.getElementById('typeBar').value = null;
+    typeGameEnd = true;
+  } 
+}
+
+function typeStart(music) {
+  var typeID = setInterval(function() {
+    if (typeGameEnd == true) {
+      clearInterval(typeID);
+      gameSuccess("selectmenu", music);
+      trueSentence = genSentence();
+      document.getElementById("sentence").innerHTML = trueSentence;
+      document.getElementById('typeBar').value = null;
+    } else {
+      confirm();
+    }
+  }, 1000);
 }
 /* type game the end */
 
@@ -342,7 +353,8 @@ var numtemp = new Array();
 
 // store temporary index in array
 var arrIndex = new Array();
-function boxClick(obj, music) {
+var MathGameEnd = 0;
+function boxClick(obj) {
     if (!$(obj).hasClass("disable")) {
         var clickedindex = parseInt($(obj).attr("id").replace("num", ""));
         var temp = parseInt($(obj).find("p").html());
@@ -397,10 +409,9 @@ function boxClick(obj, music) {
                 
                 // Game Finished
                 if (numbers.length == 0) {
-                    $("#nextsum").html("Thanks For Playing!");
-                    alert("Time To Finish Your Work!");
-                    gameSuccess("mathgame", music);
-                    start();
+                    MathGameEnd = 1;
+                    //$("#nextsum").html("Thanks For Playing!");
+                    //alert("Time To Finish Your Work!");
                     
                     
                 }
@@ -438,8 +449,9 @@ function boxClick(obj, music) {
 
 
 
-function start(music) {
+function mathGameStart(music) {
     // create a number of box and generate random number in array
+    MathGameEnd = 0;
     sum          = 0;
     sumtemp      = 0;
     tempindex    = 0;
@@ -455,9 +467,17 @@ function start(music) {
     for ( i = 0; i < boxloop; i++) {
         numbers[i] = randomFromTo(1, 15);
         $('#boxclear').before('<div class="boxnum" id="num'+i+'" '+
-                              ' onclick="boxClick(this, '+music+');"><p>'+numbers[i]+'</p></div>');
+                              ' onclick="boxClick(this);"><p>'+numbers[i]+'</p></div>');
     }
     generateRandomSum();
+
+    var mathid = setInterval(function() {
+      console.log("mathgame loop");
+      if (MathGameEnd == 1) {
+        gameSuccess("mathgame", music);
+        clearInterval(mathid);
+      }
+    }, 1000);
     
 }
 
@@ -525,10 +545,11 @@ function alarmAudio(alarmList) {
       }*/
       playAudio(music);
       if (game == 1) {
-        confirm(music);
-        $("#selectmenu").show();
+        //typeStart(music);
+        typeStart(music);
+        $("#selectmenu").show();              
       } else if (game == 2) {
-        start(music);
+        mathGameStart(music);
         $("#mathgame").show();
       } else if (game == 3) {
         $("#jump").show();
