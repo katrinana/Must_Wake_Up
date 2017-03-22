@@ -35,7 +35,7 @@ function list_jquery(hour, min, period, name){
   return jquery;
 }
 
-var myApp = new Framework7();
+/*var myApp = new Framework7();
  
 var $$ = Dom7;
  
@@ -44,7 +44,7 @@ $$('.action1').on('click', function () {
 });
 $$('.action2').on('click', function () {
   myApp.alert('Action 2');
-});  
+}); */
 
 
 var Alarm = function(name, hour, min, period, id, game, music){
@@ -57,16 +57,14 @@ var Alarm = function(name, hour, min, period, id, game, music){
   this.game = game;
   if (music == 1) {
     this.music = new Audio('Rooster.mp3');
-    } else if (music == 2) {
-      this.music = new Audio('Alarm-tone.mp3');
-    } else if (music == 3) {
-      this.music = new Audio('Coo.mp3');
-    } else if (music == 4) {
-      this.music = new Audio('clock.mp3');
-    }
-  this.music = music;
-  this.inStack = false;
-  this.tracker = 0;
+  } else if (music == 2) {
+    this.music = new Audio('Alarm-tone.mp3');
+  } else if (music == 3) {
+    this.music = new Audio('Coo.mp3');
+  } else if (music == 4) {
+    this.music = new Audio('clock.mp3');
+  }
+  //this.music = music;
 
   this.getName = function(){
     return this.Name;
@@ -102,14 +100,6 @@ var Alarm = function(name, hour, min, period, id, game, music){
     return this.music;
   }
 
-  this.getStack = function() {
-    return this.inStack;
-  }
-
-  this.getTracker = function() {
-    return this.tracker;
-  }
-
   this.changeStatus = function() {
     if (this.on == true) {
       this.on = false;
@@ -117,24 +107,13 @@ var Alarm = function(name, hour, min, period, id, game, music){
       this.on = true;
     }
   }
-
-  this.changeIn = function() {
-    if (this.inStack == true) {
-      this.inStack = false;
-    } else {
-      this.inStack = true;
-    }
-  }
-
-  this.setTracker = function(tra) {
-    this.tracker = tra;
-  }
 }   
 
 
 var Model = function(){
   var that = this;
   this.allAlarm = [];
+  var tracker = 0;
 
   //return the list of alarms
   this.get_Allalarm = function(){
@@ -182,6 +161,14 @@ var Model = function(){
     this.allAlarm[i].changeStatus();
     $('#'+id).attr('checked', this.allAlarm[i].getStatus());
     this.notify();
+  }
+
+  this.get_Tracker = function() {
+    return this.tracker;
+  }
+
+  this.set_Tracker = function(tra) {
+    this.tracker = tra;
   }
 
 
@@ -233,7 +220,7 @@ var View = function(Model){
     }
     $(".list").find(".switch__input").click(function() {
       console.log("switch button click");
-      var status = Model.change_Alarm(this.id);
+      Model.change_Alarm(this.id);
     })
 
   }
@@ -241,8 +228,8 @@ var View = function(Model){
   Model.addObserver(this.updateView);
 }
 
-function gameSuccess(game) {
-  pauseAudio();
+function gameSuccess(game, music) {
+  pauseAudio(music);
   $("#"+game).hide();
   $("#mainmenu").show();
 }
@@ -259,7 +246,8 @@ function endgame(num) {
 
 /* type game */ 
 function genSentence() {
-  var ran = Math.floor(Math.random() * 10);
+	return "haha";
+  /*var ran = Math.floor(Math.random() * 10);
     switch (ran) {
       case 0:
         return "A little progress each day adds up to big results";
@@ -281,15 +269,15 @@ function genSentence() {
         return "Once you control your mind you can conquer your body";
       case 9:
         return "When you feel like fiving up, think about why you started";
-    }
+    }*/
   }
 
 var trueSentence = genSentence();
 document.getElementById("sentence").innerHTML = trueSentence;
-function confirm() {
+function confirm(music) {
   var userSentence = document.getElementById('typeBar').value;
   if (userSentence == trueSentence) {
-    gameSuccess("selectmenu");
+    gameSuccess("selectmenu", music);
     trueSentence = genSentence();
     document.getElementById("sentence").innerHTML = trueSentence;
   } else {
@@ -354,7 +342,7 @@ var numtemp = new Array();
 
 // store temporary index in array
 var arrIndex = new Array();
-function boxClick(obj) {
+function boxClick(obj, music) {
     if (!$(obj).hasClass("disable")) {
         var clickedindex = parseInt($(obj).attr("id").replace("num", ""));
         var temp = parseInt($(obj).find("p").html());
@@ -411,7 +399,7 @@ function boxClick(obj) {
                 if (numbers.length == 0) {
                     $("#nextsum").html("Thanks For Playing!");
                     alert("Time To Finish Your Work!");
-                    gameSuccess("mathgame");
+                    gameSuccess("mathgame", music);
                     start();
                     
                     
@@ -450,7 +438,7 @@ function boxClick(obj) {
 
 
 
-function start() {
+function start(music) {
     // create a number of box and generate random number in array
     sum          = 0;
     sumtemp      = 0;
@@ -467,15 +455,11 @@ function start() {
     for ( i = 0; i < boxloop; i++) {
         numbers[i] = randomFromTo(1, 15);
         $('#boxclear').before('<div class="boxnum" id="num'+i+'" '+
-                              ' onclick="boxClick(this);"><p>'+numbers[i]+'</p></div>');
+                              ' onclick="boxClick(this, '+music+');"><p>'+numbers[i]+'</p></div>');
     }
     generateRandomSum();
     
 }
-
-
-
-
 
 /* math game the end */
 
@@ -488,13 +472,11 @@ function start() {
 
 
 
-
-
-
+//var my_media;
 // Play audio
-function playAudio(src) {
+function playAudio(my_media) {
   // Create Media object from src
-  my_media = new Audio(src);
+  //my_media = new Audio(src);
   if (typeof my_media.loop == 'boolean') {
       my_media.loop = true;
   } else {
@@ -507,7 +489,7 @@ function playAudio(src) {
 }
 
 // Pause audio 
-function pauseAudio() {
+function pauseAudio(my_media) {
   if (my_media == null) {
       console.log("my_media is null");
   }
@@ -515,37 +497,54 @@ function pauseAudio() {
 }
 
 
-function alarmAudio(hrs, mins, id, game, music) {
+function alarmAudio(alarmList) {
   var time = new Date();
   var currentHrs = time.getHours();
   var currentMin = time.getMinutes();
-  if (hrs == currentHrs && mins == currentMin && time.getSeconds() == 0) {
-    if (music == 1) {
-      playAudio('Rooster.mp3');
-    } else if (music == 2) {
-      playAudio('Alarm-tone.mp3');
-    } else if (music == 3) {
-      playAudio('Coo.mp3');
-    } else if (music == 4) {
-      playAudio('clock.mp3');
+  for(var i = 0; i < alarmList.length; i++) {
+    var alarm = alarmList[i];
+    if (alarm.getStatus() == false) continue;
+    var alarmHrs = alarm.getHour();
+    var alarmMins = alarm.getMin();
+    var alarmId = alarm.getId();
+    var game = alarm.getGame();
+    var music = alarm.getMusic();
+    var numHrs = parseInt(alarmHrs);
+    if (alarm.getPeriod() == "PM") {
+      numHrs = parseInt(alarmHrs)+12;
+    } 
+    if (currentHrs == numHrs && currentMin == alarmMins && time.getSeconds() == 0) {
+      /*if (music == 1) {
+        playAudio('Rooster.mp3');
+      } else if (music == 2) {
+        playAudio('Alarm-tone.mp3');
+      } else if (music == 3) {
+        playAudio('Coo.mp3');
+      } else if (music == 4) {
+        playAudio('clock.mp3');
+      }*/
+      playAudio(music);
+      if (game == 1) {
+        confirm(music);
+        $("#selectmenu").show();
+      } else if (game == 2) {
+        start(music);
+        $("#mathgame").show();
+      } else if (game == 3) {
+        $("#jump").show();
+      } else if (game == 4) {
+        $("#photo").show();
+      }
+      $("#mainmenu").hide();
+      $("#addmenu").hide();
     }
-
-    if (game == 1) {
-      $("#selectmenu").show();
-    } else if (game == 2) {
-      $("#mathgame").show();
-    } else if (game == 3) {
-      $("#jump").show();
-    } else if (game == 4) {
-      $("#photo").show();
-    }
-    $("#mainmenu").hide();
-    $("#addmenu").hide();
-    //$('#'+id).attr('checked', false);
   }
-  var tracker = setTimeout('alarmAudio('+hrs+', '+mins+', "'+id+'", '+game+', '+music+')', 1000);
+  var tracker = setTimeout(function() {
+  	alarmAudio(alarmList);
+  }, 1000);
   return tracker;
 }
+
 
 
 
@@ -555,33 +554,13 @@ var audioView = function(Model) {
   this.updateView = function() {
     var all_alarm = Model.get_Allalarm();
     var len = all_alarm.length;
-    for(var i = 0; i < all_alarm.length; i++) {
-      var alarm = all_alarm[i];
-      var alarmHrs = alarm.getHour();
-      var alarmMins = alarm.getMin();
-      var alarmId = alarm.getId();
-      var game = alarm.getGame();
-      var music = alarm.getMusic();
-      //var tracker = alarm.getTracker();
-      console.log("enter queue: " + alarmId);
-      if (alarm.getPeriod() == "PM") {
-        var numHrs = parseInt(alarmHrs)+12;
-      }
-      if (alarm.getStatus() == true && alarm.getStack() == false) {
-        var tracker = alarmAudio(numHrs, alarmMins, alarmId, game, music);
-        alarm.setTracker(tracker);
-        alarm.changeIn();
-      }
-      if (alarm.getStatus() == false && alarm.getStack() == true) {
-        console.log(alarmId+ "is going to stop and its tracker is " + alarm.getTracker());
-        clearTimeout(alarm.getTracker());
-        var newtracker = 0;
-        alarm.setTracker(newtracker);
-        console.log("after clearTimeout tracker is " + alarm.getTracker());
-
-        
-        alarm.changeIn();
-      }
+    var tracker = Model.get_Tracker();
+    console.log("before clear is " + tracker);
+    clearTimeout(tracker);
+    console.log("after clear is " + tracker);
+    if (all_alarm.length!=0) {
+      tracker = alarmAudio(all_alarm);
+      Model.set_Tracker(tracker);
     }
   };
 
@@ -613,8 +592,12 @@ function startApp(){
       var time = new Date();
       var currentHrs = time.getHours();
       var currentMin = time.getMinutes();
+      if (currentMin < 10) currentMin = '0'+currentMin;
       if (currentHrs > 12) {
         $("#choose-hour").val(currentHrs-12);
+        $("#choose-time").val("PM");
+      } else if (currentHrs == 12) {
+        $("#choose-hour").val(currentHrs);
         $("#choose-time").val("PM");
       } else {
         $("#choose-hour").val(currentHrs);
