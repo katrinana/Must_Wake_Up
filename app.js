@@ -20,6 +20,65 @@
 var myApp = new Framework7();
 
 var $$ = Dom7;
+
+var pickerInline = myApp.picker({
+    input: '#picker-date',
+    container: '#picker-date-container',
+    toolbar: false,
+    rotateEffect: true,
+
+ 
+    formatValue: function (p, values, displayValues) {
+        //console.log("hour is" + values[0]);
+        //console.log("Minutes is" + values[1]);
+        //console.log("day period is " + values[2]);
+        var timevalue = document.getElementById('picker-date').value;
+
+        //console.log("value is " + timevalue)
+        return values[0] + ' : ' + values[1] + ' ' + values[2];
+
+    },
+ 
+    cols: [
+        // Space divider
+        {
+            divider: true,
+            content: '  '
+        },
+        // Hours
+        {
+            values: (function () {
+                var arr = [];
+                for (var i = 1; i <= 12; i++) { arr.push(i); }
+                return arr;
+            })(),
+        },
+        // Divider
+        {
+            divider: true,
+            content: ':'
+        },
+        // Minutes
+        {
+            values: (function () {
+                var arr = [];
+                for (var i = 0; i <= 59; i++) { arr.push(i < 10 ? '0' + i : i); }
+                return arr;
+            })(),
+        },
+        // day period
+        {
+            values: (function (){
+                var arr = [];
+                arr.push("AM");
+                arr.push("PM");
+                return arr;
+
+
+            })(),
+        }
+    ]
+});
  
 /*$$('.action1').on('click', function () {
   myApp.alert('Action 1');
@@ -146,8 +205,14 @@ var Model = function(){
 
    //add new alarm to model
   this.add_Alarm = function(alarm){
-    this.allAlarm.push(alarm);
-    this.notify();
+    var id = alarm.getId();
+
+    if(this.get_index_by_id(id) == -1){
+      this.allAlarm.push(alarm);
+      this.notify();
+    }else{
+      console.log("alarm already exist!!");
+    }
   }
 
   //delete an item by item
@@ -598,54 +663,55 @@ var audioView = function(Model) {
 function startApp(){
   var m = new Model();
 
-  $("#addmenu").hide();
+  $("#newtimepicker").hide();
   $("#selectmenu").hide();
   $("#mathgame").hide();
   $("#jump").hide();
   $("#photo").hide();
   $("#mainmenu").show();
+
   
 
 //button connect to the add alram menu
   $('#addbutton').click(function(){
-
     document.getElementById('alarmname').value = null;
 
-      //console.log('add button clicked.');
-      $("#mainmenu").hide();
-      $("#addmenu").show();
+  console.log('add button clicked.');
+
+      $("#newtimepicker").show();
+      pickerInline.open();
       $("#selectmenu").hide();
       $("#mathgame").hide();
-      var time = new Date();
-      var currentHrs = time.getHours();
-      var currentMin = time.getMinutes();
-      if (currentMin < 10) currentMin = '0'+currentMin;
-      if (currentHrs > 12) {
-        $("#choose-hour").val(currentHrs-12);
-        $("#choose-time").val("PM");
-      } else if (currentHrs == 12) {
-        $("#choose-hour").val(currentHrs);
-        $("#choose-time").val("PM");
-      } else {
-        $("#choose-hour").val(currentHrs);
-        $("#choose-time").val("AM");
-      }
-      $("#choose-min").val(currentMin);
+      $("#jump").hide();
+      $("#photo").hide();
+      $("#mainmenu").hide();
   });
 
 
 
   $("#setbutton").click(function(){
       console.log('set button clicked.');
-      var hour = document.getElementById('choose-hour').value;
-                                   //console.log(hour);
-                                   //console.log(currentMin + " " + mins);
-                             
-      var min = document.getElementById('choose-min').value;
-      var period = document.getElementById('choose-time').value;
+      var timevalue = document.getElementById('picker-date').value;
+      var hour, min, period;
+
+      //set hour, min and period
+      if(timevalue.length == 9){
+        hour = timevalue.substring(0,1);
+        min = timevalue.substring(4,6);
+        period = timevalue.substring(7);
+
+      }else{
+        hour = timevalue.substring(0,2);
+        min = timevalue.substring(5,7);
+        period = timevalue.substring(8);
+      }
+
+      console.log("hour is " + hour + " min is " + min + " period is " + period);
+
       var name = document.getElementById('alarmname').value;
       var game = document.getElementById('choose-game').value;
       var music = document.getElementById('choose-music').value;
+
       var id = hour + min + period;
       var alarm =new Alarm(name, hour, min, period, id, game, music);
       m.add_Alarm(alarm);
@@ -653,9 +719,10 @@ function startApp(){
       document.getElementById('alarmname').value = null;
 
       $("#mainmenu").show();
-      $("#addmenu").hide();
+      $("#newtimepicker").hide();
 
     });
+
 
   $("#backbutton").click(function(){
 
