@@ -17,6 +17,17 @@
   return jquery;
 }*/
 
+var myApp = new Framework7();
+
+var $$ = Dom7;
+ 
+/*$$('.action1').on('click', function () {
+  myApp.alert('Action 1');
+});
+$$('.action2').on('click', function () {
+  myApp.alert('Action 2');
+}); */
+
 function list_jquery(hour, min, period, name){
 
   var id = hour + min + period;
@@ -28,23 +39,12 @@ function list_jquery(hour, min, period, name){
   var act_delete = '<div class="swipeout-actions-right">' + '<a href="#" class="swipeout-delete" id ="delete_"' + id +'>Delete</a></div></li>';
 
   var jquery = '<li class="swipeout">' + '<div class="swipeout-content item-content">' + ' <div class="list__item__center">' + item + 
-  '</div> <div class="list__item__right"> <label class="switch">';
+  '</div> <div class="list__item__right" id=' + 'sl' + id  + '> <label class="switch">';
 
   jquery = jquery + input + input_end + act_edit + act_delete;
 
   return jquery;
 }
-
-/*var myApp = new Framework7();
- 
-var $$ = Dom7;
- 
-$$('.action1').on('click', function () {
-  myApp.alert('Action 1');
-});
-$$('.action2').on('click', function () {
-  myApp.alert('Action 2');
-}); */
 
 
 var Alarm = function(name, hour, min, period, id, game, music){
@@ -159,7 +159,9 @@ var Model = function(){
   this.change_Alarm = function(id) {
     var i = this.get_index_by_id(id);
     this.allAlarm[i].changeStatus();
+
     $('#'+id).attr('checked', this.allAlarm[i].getStatus());
+
     this.notify();
   }
 
@@ -218,9 +220,12 @@ var View = function(Model){
 
   
     }
-    $(".list").find(".switch__input").click(function() {
-      console.log("switch button click");
-      Model.change_Alarm(this.id);
+
+    $(".list").find(".list__item__right").click(function() {
+      console.log("s witch button click" + this.id);
+      var newid = this.id.substring(2);
+      //console.log("new id is " + newid);
+      Model.change_Alarm(newid);
     })
 
   }
