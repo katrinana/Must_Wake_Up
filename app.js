@@ -228,10 +228,11 @@ var View = function(Model){
   Model.addObserver(this.updateView);
 }
 
-function gameSuccess(game, music) {
+function gameSuccess(game, music, id) {
   pauseAudio(music);
   $("#"+game).hide();
   $("#mainmenu").show();
+  $('#'+id).attr('checked', false);
 }
 
 
@@ -283,11 +284,11 @@ function confirm() {
   } 
 }
 
-function typeStart(music) {
+function typeStart(music, id) {
   var typeID = setInterval(function() {
     if (typeGameEnd == true) {
       clearInterval(typeID);
-      gameSuccess("selectmenu", music);
+      gameSuccess("selectmenu", music, id);
       trueSentence = genSentence();
       document.getElementById("sentence").innerHTML = trueSentence;
       document.getElementById('typeBar').value = null;
@@ -449,7 +450,7 @@ function boxClick(obj) {
 
 
 
-function mathGameStart(music) {
+function mathGameStart(music, id) {
     // create a number of box and generate random number in array
     MathGameEnd = 0;
     sum          = 0;
@@ -474,7 +475,7 @@ function mathGameStart(music) {
     var mathid = setInterval(function() {
       console.log("mathgame loop");
       if (MathGameEnd == 1) {
-        gameSuccess("mathgame", music);
+        gameSuccess("mathgame", music, id);
         clearInterval(mathid);
       }
     }, 1000);
@@ -546,10 +547,10 @@ function alarmAudio(alarmList) {
       playAudio(music);
       if (game == 1) {
         //typeStart(music);
-        typeStart(music);
+        typeStart(music, alarmId);
         $("#selectmenu").show();              
       } else if (game == 2) {
-        mathGameStart(music);
+        mathGameStart(music, alarmId);
         $("#mathgame").show();
       } else if (game == 3) {
         $("#jump").show();
