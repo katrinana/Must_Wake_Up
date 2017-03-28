@@ -729,7 +729,7 @@ function startApp(){
     document.getElementById('alarmname').value = null;
 
     $("#mainmenu").show();
-    $("#addmenu").hide();
+    $("#newtimepicker").hide();
 
   });
 
