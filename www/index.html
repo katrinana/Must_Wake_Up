@@ -121,67 +121,111 @@
 </div> 
 <!-- type game -->
 
-
 <!-- new time picker -->
 <div id = "newtimepicker">
 <ons-page>
 
 <ons-toolbar>
-    <div class="center">New alarm</div>
+    <div class="center" style="padding-left: 139px">New alarm</div>
 </ons-toolbar>
 
-<div class="content-block-title">select time</div>
-<div class="content-block">
- <div style="padding:0; margin-right:-15px; width:auto" class="content-block-inner">
-   <div style="margin:0" class="list-block">
-     <ul style="border-top:none">
-       <li>
-         <div class="item-content">
-           <div class="item-inner">
-             <div class="item-input">
-               <input type="text" placeholder="Date Time" readonly id="picker-date">
-             </div>
-           </div>
+<div class="view view-main" >
+               <div data-page="home" class="page">
+                
+                <div class="content-block-title">select time</div>
+                <div class="content-block">
+                 <div style="padding:0; margin-right:-15px; width:auto" class="content-block-inner">
+                   <div style="margin:0" class="list-block">
+                     <ul style="border-top:none">
+                       <li>
+                         <div class="item-content">
+                           <div class="item-inner">
+                             <div class="item-input">
+                               <input type="text" placeholder="Date Time" readonly id="picker-date">
+                             </div>
+                           </div>
+                         </div>
+                       </li>
+                     </ul>
+                   </div>
+                   <div id="picker-date-container"></div>
+                 </div>
+                </div>
+
+
+                    <div class="list-block">
+                      <ul>
+
+                        <li>
+                          <div class="item-content">
+                            <div class="item-inner">
+                              <div class="item-title label">Label</div>
+                              <div class="item-input">
+                                <input type="text" id="alarmname" name="name" placeholder="Alram">
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+
+                        <li>
+                          <!-- Smart select, will be opened in Picker -->
+                          <a href="#" class="item-link smart-select" data-open-in="picker">
+                            <select name="Game" id="choose-game">
+                                    <option value="1">type sentance</option>
+                                    <option value="2">math game</option>
+                                    <option value="3" disabled>jump</option>
+                                    <option value="4" disabled>photo</option>
+                                 </select>
+                                 <div class="item-content">
+                                    <div class="item-inner">
+                                       <div class="item-title">Game</div>
+                                    </div>
+                                 </div>
+                          </a>
+                        </li>
+
+                        <li>
+                          <!-- Smart select, will be opened in Picker with custom close text -->
+                          <a href="#" class="item-link smart-select" data-open-in="picker" data-picker-close-text="Done">
+                            <select name="Sound" id="choose-music">
+                                    <option value="1">Rooster</option>
+                                    <option value="2">Alarm-tone</option>
+                                    <option value="3">Coo</option>
+                                    <option value="4">clock</option>
+                                 </select>
+
+                                 <div class="item-content">
+                                    <div class="item-inner">
+                                       <div class="item-title">Sound</div>
+                                    </div>
+                                 </div>
+                          </a>
+                        </li>
+                      </ul>
+
+                      <div class="row">
+                        <div class="col-50">
+                          <p class="buttons-row theme-lightblue">
+                          <a href="#" class="button button-big button-red active" id="setbutton" >Set</a>
+                        </p>
+                        </div>
+                        <div class="col-50">
+                          <p class="buttons-row theme-red">
+                          <a href="#" class="button button-big button-green active" id="backbutton">Cancel</a>
+                          </p>
+                        </div>
+                      </div> 
+
+            </div>
          </div>
-       </li>
-     </ul>
-   </div>
-   <div id="picker-date-container"></div>
- </div>
-</div>
+      </div>
 
-    <!-- name of alram -->
-    <div style="text-align: left; margin-top: 30px;">
-        <p>
-        <ons-input id="alarmname" modifier="underbar" placeholder="Alarm Name"></ons-input>
-        </p>
-    </div>
     
-    <!-- choose game -->
-    <p style="padding-left:100px">
-        Game:
-    <ons-select id="choose-game">
-        <option value="1">type sentance</option>
-        <option value="2">math game</option>
-        <option value="3">jump</option>
-        <option value="4">photo</option>
-    </ons-select>
-    
-    <!-- choose music -->
-    <p style="padding-left:100px">
-        Music:
-    <ons-select id="choose-music">
-        <option value="1">Rooster</option>
-        <option value="2">Alarm-tone</option>
-        <option value="3">Coo</option>
-        <option value="4">clock</option>
-    </ons-select>
-    </p>
 
 
-<!-- set button -->
-<button class="button--large--quiet" id="setbutton" style="padding:15px">Set</button>
-<button class="button--large--quiet" id="backbutton" style="padding:15px">Cancel</button>
+<!--<button class="button--large--quiet" id="setbutton" style="padding:15px">Set</button>
+<button class="button--large--quiet" id="backbutton" style="padding:15px">Cancel</button> -->
+
 </ons-page>
 </div>
 
