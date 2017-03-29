@@ -277,9 +277,9 @@ var Model = function(){
     this.allAlarm[i].changeStatus();
     updateStore(id);
 
-    $('#'+id).attr('checked', this.allAlarm[i].getStatus());
+    //$('#'+id).attr('checked', this.allAlarm[i].getStatus());
 
-    this.notify();
+    //this.notify();
   }
 
   this.get_Tracker = function() {
@@ -771,6 +771,43 @@ function demoplayQR() {
 /* scan QR */
 
 
+/* jump game */
+var jumpBotton=document.getElementById("jump-botton");
+var flag=false,num=0;
+var yy=new mobilePhoneShake({
+  speed:9000,
+  callback:function(x,y,z){
+    num++;
+    jumpBotton.querySelector("em").innerHTML=num;
+    if (num == 10) {
+      yy.stop();
+      flag=true;
+      document.getElementById("jump-info").innerHTML="Jump Done";
+    }
+  },
+    onchange:function(x,y,z){
+    //document.getElementById("msg").innerHTML="x:"+x+"<br>y:"+y+"<br>z:"+z;
+  }
+});
+
+function jumpStart(music, alarmId) {
+  flag=false;
+  var jumpid = setInterval(function() {
+      console.log("jump loop");
+      if (flag == true) {
+        gameSuccess("jump", music, alarmId);
+        clearInterval(jumpid);
+      }
+    }, 1000);
+  jumpBotton.onclick=function(){
+    var j=this;
+    j.innerHTML="Jump Complete：<em>0</em>"
+    num=0;
+    yy.start();
+  }
+}
+
+/* jump game end */
 
 
 
