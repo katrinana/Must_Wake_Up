@@ -722,7 +722,7 @@ ons-range[disabled] .range {
   padding-left: 0;
   padding-right: 0;
   background: #fff;
-  color: #1f1f21;
+  color: #000;
   -webkit-box-shadow: none;
   box-shadow: none;
   font-weight: 400;
@@ -733,17 +733,17 @@ ons-range[disabled] .range {
   background-size: 100% 1px;
   background-repeat: no-repeat;
   background-position: bottom;
-  background-image: -webkit-linear-gradient(90deg, #bbb, #bbb 100%);
-  background-image: -moz-linear-gradient(90deg, #bbb, #bbb 100%);
-  background-image: -o-linear-gradient(90deg, #bbb, #bbb 100%);
-  background-image: linear-gradient(0deg, #bbb, #bbb 100%);
+  background-image: -webkit-linear-gradient(90deg, #000, #000 100%);
+  background-image: -moz-linear-gradient(90deg, #000, #000 100%);
+  background-image: -o-linear-gradient(90deg, #000, #000 100%);
+  background-image: linear-gradient(0deg, #000, #000 100%);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   .navigation-bar {
-    background-image: -webkit-linear-gradient(90deg, #bbb, #bbb 50%, transparent 50%);
-    background-image: -moz-linear-gradient(90deg, #bbb, #bbb 50%, transparent 50%);
-    background-image: -o-linear-gradient(90deg, #bbb, #bbb 50%, transparent 50%);
-    background-image: linear-gradient(0deg, #bbb, #bbb 50%, transparent 50%);
+    background-image: -webkit-linear-gradient(90deg, #000, #000 50%, transparent 50%);
+    background-image: -moz-linear-gradient(90deg, #000, #000 50%, transparent 50%);
+    background-image: -o-linear-gradient(90deg, #000, #000 50%, transparent 50%);
+    background-image: linear-gradient(0deg, #000, #000 50%, transparent 50%);
   }
 }
 .navigation-bar__bg {
@@ -790,13 +790,13 @@ ons-range[disabled] .range {
   line-height: 44px;
   font-size: 17px;
   font-weight: 500;
-  color: #1f1f21;
+  color: #000;
 }
 .navigation-bar__title {
   line-height: 44px;
   font-size: 17px;
   font-weight: 500;
-  color: #1f1f21;
+  color: #000;
   margin: 0;
   padding: 0;
   overflow: visible;
@@ -907,12 +907,12 @@ ons-range[disabled] .range {
   padding-left: 0;
   padding-right: 0;
   background: #fff;
-  color: #1f1f21;
+  color: #000;
   -webkit-box-shadow: none;
   box-shadow: none;
   font-weight: 400;
   border-bottom: none;
-  border-top: 1px solid #bbb;
+  border-top: 1px solid #000;
   position: absolute;
   bottom: 0px;
   right: 0px;
@@ -922,17 +922,17 @@ ons-range[disabled] .range {
   background-size: 100% 1px;
   background-repeat: no-repeat;
   background-position: top;
-  background-image: -webkit-linear-gradient(270deg, #bbb, #bbb 100%);
-  background-image: -moz-linear-gradient(270deg, #bbb, #bbb 100%);
-  background-image: -o-linear-gradient(270deg, #bbb, #bbb 100%);
-  background-image: linear-gradient(180deg, #bbb, #bbb 100%);
+  background-image: -webkit-linear-gradient(270deg, #000, #000 100%);
+  background-image: -moz-linear-gradient(270deg, #000, #000 100%);
+  background-image: -o-linear-gradient(270deg, #000, #000 100%);
+  background-image: linear-gradient(180deg, #000, #000 100%);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   .bottom-bar {
-    background-image: -webkit-linear-gradient(270deg, #bbb, #bbb 50%, transparent 50%);
-    background-image: -moz-linear-gradient(270deg, #bbb, #bbb 50%, transparent 50%);
-    background-image: -o-linear-gradient(270deg, #bbb, #bbb 50%, transparent 50%);
-    background-image: linear-gradient(180deg, #bbb, #bbb 50%, transparent 50%);
+    background-image: -webkit-linear-gradient(270deg, #000, #000 50%, transparent 50%);
+    background-image: -moz-linear-gradient(270deg, #000, #000 50%, transparent 50%);
+    background-image: -o-linear-gradient(270deg, #000, #000 50%, transparent 50%);
+    background-image: linear-gradient(180deg, #000, #000 50%, transparent 50%);
   }
 }
 .bottom-bar__line-height {
@@ -997,7 +997,7 @@ ons-range[disabled] .range {
   -webkit-box-shadow: 0 1px 5px rgba(0,0,0,0.3);
   box-shadow: 0 1px 5px rgba(0,0,0,0.3);
   padding: 0;
-  background-color: #009688;
+  background-color: #fff;
   -webkit-background-size: 0;
   background-size: 0;
 }
@@ -1032,7 +1032,7 @@ ons-range[disabled] .range {
   -webkit-font-smoothing: antialiased;
   font-size: 20px;
   font-weight: 500;
-  color: #fff;
+  color: #000;
   height: 56px;
   min-width: 72px;
   width: auto;
@@ -1044,7 +1044,7 @@ ons-range[disabled] .range {
   -webkit-font-smoothing: antialiased;
   font-size: 20px;
   font-weight: 500;
-  color: #fff;
+  color: #000;
   height: 56px;
   width: auto;
   -webkit-box-flex: 1;
@@ -2607,7 +2607,7 @@ ons-range[disabled] .range {
   font-size: 17px;
   padding: 4px 10px;
   letter-spacing: 0;
-  color: rgba(38,100,171,0.81);
+  color: #000;
   text-shadow: 0 1px none;
   background-color: rgba(0,0,0,0);
   -webkit-border-radius: 2px;
@@ -2654,14 +2654,14 @@ ons-range[disabled] .range {
   transition: none;
 }
 .toolbar-button--outline {
-  border: 1px solid rgba(38,100,171,0.81);
+  border: 1px solid #000;
   margin: auto 8px;
   padding-left: 6px;
   padding-right: 6px;
 }
 .toolbar-button--material {
   font-size: 22px;
-  color: #fff;
+  color: #000;
   display: inline-block;
   padding: 0 12px;
   height: 100%;
@@ -2685,7 +2685,7 @@ ons-range[disabled] .range {
   height: 44px;
   line-height: 44px;
   padding-left: 8px;
-  color: rgba(38,100,171,0.81);
+  color: #000;
   background-color: rgba(0,0,0,0);
 }
 .back-button:active {
@@ -2709,7 +2709,7 @@ ons-range[disabled] .range {
 }
 .back-button--material {
   font-size: 22px;
-  color: #fff;
+  color: #000;
   display: inline-block;
   padding: 0 12px;
   height: 100%;
