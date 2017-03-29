@@ -389,17 +389,15 @@ function gameSuccess(game, music, id) {
   $('#'+id).attr('checked', false);
 }
 
-
-/* fake now */
-function endgame(num) {
-  if (num == 1) {
-    gameSuccess("jump");
-  } if (num == 2) {
-    gameSuccess("photo");
-  }
+function gameDemoSuccess(game) {
+  $("#"+game).hide();
+  $("#mainmenu").show();
 }
 
+
 /* type game */ 
+
+var typeGameEnd = false;
 function genSentence() {
 	return "haha";
   /*var ran = Math.floor(Math.random() * 10);
@@ -428,7 +426,6 @@ function genSentence() {
   }
 
 var trueSentence = genSentence();
-var typeGameEnd = false;
 document.getElementById("sentence").innerHTML = trueSentence;
 function confirm() {
   console.log("click confirm");
@@ -446,6 +443,22 @@ function typeStart(music, id) {
       trueSentence = genSentence();
       document.getElementById("sentence").innerHTML = trueSentence;
       document.getElementById('typeBar').value = null;
+      typeGameEnd = false;
+    } else {
+      confirm();
+    }
+  }, 1000);
+}
+
+function typeDemoStart() {
+  var typeID = setInterval(function() {
+    if (typeGameEnd == true) {
+      clearInterval(typeID);
+      gameDemoSuccess("selectmenu");
+      trueSentence = genSentence();
+      document.getElementById("sentence").innerHTML = trueSentence;
+      document.getElementById('typeBar').value = null;
+      typeGameEnd = false;
     } else {
       confirm();
     }
@@ -636,6 +649,38 @@ function mathGameStart(music, id) {
     
 }
 
+function mathGameDemoStart() {
+    // create a number of box and generate random number in array
+    MathGameEnd = 0;
+    sum          = 0;
+    sumtemp      = 0;
+    tempindex    = 0;
+    var val          = 3;
+    var boxloop      = val * val;
+    var boxleft      = ($(window).width() - (val * 78)) / 2;
+    $("#dimcontainer").html('<div id="boxclear"></div>');
+    $("#dimcontainer").css({
+                           width: (val * 78) + "px",
+                           left: boxleft + "px"
+                           });
+    
+    for ( i = 0; i < boxloop; i++) {
+        numbers[i] = randomFromTo(1, 15);
+        $('#boxclear').before('<div class="boxnum" id="num'+i+'" '+
+                              ' onclick="boxClick(this);"><p>'+numbers[i]+'</p></div>');
+    }
+    generateRandomSum();
+
+    var mathid = setInterval(function() {
+      console.log("mathgame loop");
+      if (MathGameEnd == 1) {
+        gameDemoSuccess("mathgame");
+        clearInterval(mathid);
+      }
+    }, 1000);
+    
+}
+
 /* math game the end */
 
 /* scan QR game */
@@ -671,6 +716,35 @@ function playQR(music, alarmId) {
                   if (result.text == record_file) {
                     alert("Game Pass, Time Wake Up");
                     gameSuccess("scanQR", music, alarmId);
+                  } else {
+                    alert("O O Not this One");
+                    playQR(music, alarmId);
+                  }
+              },
+              function (error) {
+                  alert("Scanning failed: " + error);
+              },
+              {
+                  preferFrontCamera : false, // iOS and Android
+                  showFlipCameraButton : true, // iOS and Android
+                  showTorchButton : true, // iOS and Android
+                  torchOn: false, // Android, launch with the torch switched on (if available)
+                  prompt : "Place a barcode inside the scan area", // Android
+                  resultDisplayDuration: 500, // Android, display scanned text for X ms. 0 suppresses it entirely, default 1500
+                  formats : "QR_CODE,PDF_417", // default: all but PDF_417 and RSS_EXPANDED
+                  orientation : "portrait", // Android only (portrait|landscape), default unset so it rotates with the device
+                  disableAnimations : true, // iOS
+                  disableSuccessBeep: false // iOS
+              }
+           );
+}
+
+function demoplayQR() {
+    cordova.plugins.barcodeScanner.scan(
+              function (result) {
+                  if (result.text == record_file) {
+                    alert("Game Pass, Time Wake Up");
+                    gameDemoSuccess("scanQR");
                   } else {
                     alert("O O Not this One");
                     playQR(music, alarmId);
@@ -750,15 +824,6 @@ function alarmAudio(alarmList) {
       numHrs = parseInt(alarmHrs);
     }
     if (currentHrs == numHrs && currentMin == alarmMins && time.getSeconds() == 0) {
-      /*if (music == 1) {
-        playAudio('Rooster.mp3');
-      } else if (music == 2) {
-        playAudio('Alarm-tone.mp3');
-      } else if (music == 3) {
-        playAudio('Coo.mp3');
-      } else if (music == 4) {
-        playAudio('clock.mp3');
-      }*/
       console.log("enter ringing"+alarmId);
       document.addEventListener("deviceready", onDeviceReady, false);
       function onDeviceReady() {
@@ -920,6 +985,32 @@ window.onload = function(){
       $("#scanQR").hide();
       $("#mainmenu").hide();
   });
+
+
+  // game Demo 
+
+  $('#typegameDemo').click(function() {
+    typeDemoStart();
+    $("#selectmenu").show();
+  });
+
+  $('#mathgameDemo').click(function() {
+    mathGameDemoStart();
+    $("#mathgame").show();
+  });
+
+  $('#shakegameDemo').click(function() {
+    shakeDemoStart();
+    $("#jump").show();
+  });
+
+  $('#scangameDemo').click(function() {
+    recordQR();
+    alert("QR code saved! Please scan next one!")
+    demoplayQR();
+    $("#scanQR").show();
+  });
+
 
 
 
