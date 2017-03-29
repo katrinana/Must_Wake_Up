@@ -361,94 +361,9 @@ input:disabled + .switch__toggle {
   transition: none;
 }
 
+.page{background-color: #fff;}
+.page__content{background-color: #fff;}
+.page--material__background{background-color: #fff;}
+.page__background{background-color: #fff;}
 
-.button--large--quiet{
-  /*position: relative;*/
-  display: inline-block;
-  vertical-align: top;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  padding: 0;
-  margin: 0;
-  font: inherit;
-  color: inherit;
-  background: transparent;
-  border: none;
-  line-height: normal;
-  font-family: -apple-system, 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 17px;
-  cursor: default;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  height: auto;
-  text-decoration: none;
-  padding: 4px 10px;
-  font-size: 17px;
-  line-height: 32px;
-  letter-spacing: 0;
-  color: #fff;
-  vertical-align: middle;
-  background-color: rgba(24,103,194,0.81);
-  border: 0px solid currentColor;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  -webkit-transition: none;
-  -moz-transition: none;
-  -o-transition: none;
-  transition: none;
-  font-size: 17px;
-  font-weight: 500;
-  line-height: 36px;
-  padding: 4px 12px;
-  display: block;
-  width: 100%;
-  background: transparent;
-  border: 1px solid transparent;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  color: rgba(24,103,194,0.81);
-  text-align: center;
-}
-.button--large--quiet:active {
-  -webkit-transition: none;
-  -moz-transition: none;
-  -o-transition: none;
-  transition: none;
-  opacity: 0.2;
-  color: rgba(24,103,194,0.81);
-  background: transparent;
-  border: 1px solid transparent;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-.button--large--quiet:disabled,
-.button--large--quiet[disabled] {
-  opacity: 0.3;
-  cursor: default;
-  pointer-events: none;
-}
-.button--large--quiet:hover {
-  -webkit-transition: none;
-  -moz-transition: none;
-  -o-transition: none;
-  transition: none;
-}
-.button--large--quiet:focus {
-  outline: 0;
-}
-
-#choose-hour {
-  padding-left: 125px;
-}
 

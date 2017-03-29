@@ -95,7 +95,7 @@ function list_jquery(hour, min, period, name){
 
   var input = '<input type="checkbox" id='+ id + ' class="switch__input" checked>';
   var act_edit   = '<div class="swipeout-actions-left">' + '<a href="#" class="action2" id="edit_"' +id + '>Edit</a></div>';
-  var act_delete = '<div class="swipeout-actions-right">' + '<a href="#" class="swipeout-delete" id ="delete_"' + id +'>Delete</a></div></li>';
+  var act_delete = '<div class="swipeout-actions-right" id=' + 'sldelete_' + id +'>' + '<a href="#" class="swipeout-delete" id ="delete_"' + id +'>Delete</a></div></li>';
 
   var jquery = '<li class="swipeout">' + '<div class="swipeout-content item-content">' + ' <div class="list__item__center">' + item + 
   '</div> <div class="list__item__right" id=' + 'sl' + id  + '> <label class="switch">';
@@ -104,88 +104,6 @@ function list_jquery(hour, min, period, name){
 
   return jquery;
 }
-
-/* save data in database */
-/*var openDB = function() {
-  var db;
-  var databaseName = 'alarmDB';
-  var databaseVersion = 1;
-  var openRequest = window.indexedDB.open(databaseName, databaseVersion);
-  openRequest.onerror = function (event) {
-      console.log(openRequest.errorCode);
-  };
-  openRequest.onsuccess = function (event) {
-      // Database is open and initialized - we're good to proceed.
-      db = openRequest.result;
-      console.log("open db success");
-      displayData();
-      return db;
-  };
-  openRequest.onupgradeneeded = function (event) {
-      // This is either a newly created database, or a new version number
-      // has been submitted to the open() call.
-      db = event.target.result;
-      db.onerror = function () {
-          console.log(db.errorCode);
-      };
-  
-      // Create an object store and indexes. A key is a data value used to organize
-      // and retrieve values in the object store. The keyPath option identifies where
-      // the key is stored. If a key path is specified, the store can only contain
-      // JavaScript objects, and each object stored must have a property with the
-      // same name as the key path (unless the autoIncrement option is true).
-      var store = db.createObjectStore('alarmStore', { keyPath: 'id' });
-  
-      // Define the indexes we want to use. Objects we add to the store don't need
-      // to contain these properties, but they will only appear in the specified
-      // index of they do.
-      //
-      // syntax: store.createIndex(indexName, keyPath[, parameters]);
-      //
-      // All these values could have duplicates, so set unique to false
-      store.createIndex('Name', 'Name', { unique: false });
-      store.createIndex('Hour', 'Hour', { unique: false });
-      store.createIndex('Min', 'Min', { unique: false });
-      store.createIndex('period', 'period', { unique: false });
-      store.createIndex('on', 'on', { unique: false });
-      store.createIndex('game', 'game', { unique: false });
-      store.createIndex('music', 'music', { unique: false });
-      console.log("db upgrad");
-  
-  
-  };
-}
-
-var addStore = function(alarm) {
-  var db = openDB();
-  var objectStore = db.transaction('alarmStore', 'readwrite').objectStore('alarmStore');
-  objectStore.add(alarm);
-}
-
-var deleteStore = function(id) {
-  var db = openDB();
-  var removeRequest = db.transaction('alarmStore', 'readwrite')
-                        .objectStore('alarmStore').delete(id);
-}
-
-var restoreDB = function() {
-  var allAlarm = [];
-  var db = openDB();
-  console.log(db);
-  var objectStore = db.transaction('alarmStore').objectStore('alarmStore');
-
-  objectStore.openCursor().onsuccess = function(event) {
-    var cursor = event.target.result;
-    if (cursor) {
-      allAlarm.push(cursor.value);
-      cursor.continue();
-    }
-    else {
-      alert("Got all customers: " + allAlarm);
-      return allAlarm;    
-    }
-  };
-}*/
 
 
 
@@ -198,6 +116,7 @@ var Alarm = function(name, hour, min, period, id, game, music){
   this.on = true;
   this.id = id;
   this.game = game;
+  this.musicID = music;
   if (music == 1) {
     this.music = new Audio('Rooster.mp3');
   } else if (music == 2) {
@@ -243,6 +162,10 @@ var Alarm = function(name, hour, min, period, id, game, music){
     return this.music;
   }
 
+  this.getMusicID = function() {
+    return this.musicID;
+  }
+
   this.changeStatus = function() {
     if (this.on == true) {
       this.on = false;
@@ -250,7 +173,49 @@ var Alarm = function(name, hour, min, period, id, game, music){
       this.on = true;
     }
   }
+}
+
+/* save data in database */
+var db;
+
+var addStore = function(alarm) {
+  console.log("addStore db");
+  console.log(db.transaction(['alarmStore'], 'readwrite'));
+  console.log(db.transaction(['alarmStore'], 'readwrite').objectStore('alarmStore'));
+  var objectStore = db.transaction(['alarmStore'], 'readwrite').objectStore('alarmStore');
+  var newAlarm = [{id: alarm.getId(), Name:alarm.getName(), Hour:alarm.getHour(), 
+    Min:alarm.getMin(), period:alarm.getPeriod(), on: alarm.getStatus(), 
+    game: alarm.getGame(), music: alarm.getMusicID()}];
+  objectStore.add(newAlarm[0]);
+  
+}
+
+var deleteStore = function(id) {
+  var removeRequest = db.transaction('alarmStore', 'readwrite')
+                        .objectStore('alarmStore').delete(id);
 }   
+
+var updateStore = function(id) {
+  var objectStore = db.transaction(["alarmStore"], "readwrite").objectStore("alarmStore");
+  var request = objectStore.get(id);
+  request.onerror = function(event) {
+    // Handle errors!
+  };
+  request.onsuccess = function(event) {
+    // Get the old value that we want to update
+    var data = event.target.result;
+    
+    // update the value(s) in the object that you want to change
+    if (data.on == true) {
+      data.on = false;
+    } else {
+      data.on = true;
+    }
+  
+    // Put this updated object back into the database.
+    var requestUpdate = objectStore.put(data);
+  };
+}
 
 
 var Model = function(){
@@ -301,14 +266,16 @@ var Model = function(){
   }
 
   //delete an item by item
-  this.delete_Alarm = function(index){
+  this.delete_Alarm = function(id){
+    deleteStore(id);
+    var index = this.get_index_by_id(id);
     this.allAlarm.splice(index, 1);
-    this.notify();
   }
 
   this.change_Alarm = function(id) {
     var i = this.get_index_by_id(id);
     this.allAlarm[i].changeStatus();
+    updateStore(id);
 
     $('#'+id).attr('checked', this.allAlarm[i].getStatus());
 
@@ -321,6 +288,39 @@ var Model = function(){
 
   this.set_Tracker = function(tra) {
     this.tracker = tra;
+  }
+
+  this.restoreDB = function() {
+    var that = this;
+    console.log(db);
+    var objectStore = db.transaction('alarmStore').objectStore('alarmStore');
+    objectStore.openCursor().onsuccess = function(event) {
+      var cursor = event.target.result;
+      if (cursor) {
+        /*console.log(cursor.value);
+        console.log(cursor.value.Name);
+        console.log(cursor.value.Hour);
+        console.log(cursor.value.Min);
+        console.log(cursor.value.period);
+        console.log(cursor.value.id);
+        console.log(cursor.value.game);
+        console.log(cursor.value.music);*/
+        var newAlarm = new Alarm(cursor.value.Name, cursor.value.Hour,
+                       cursor.value.Min, cursor.value.period, cursor.value.id, 
+                       cursor.value.game, cursor.value.music);
+        if (cursor.value.on == false) {
+          newAlarm.changeStatus();
+        }
+        //console.log("newAlarm");
+        //console.log(newAlarm);
+        that.allAlarm.push(newAlarm);
+        cursor.continue();
+      }
+      else {
+        console.log("Got all customers: " + this.allAlarm); 
+        that.notify();
+      }
+    };
   }
 
 
@@ -378,6 +378,13 @@ var View = function(Model){
       var newid = this.id.substring(2);
       //console.log("new id is " + newid);
       Model.change_Alarm(newid);
+    })
+
+    $(".list").find(".swipeout-actions-right").click(function() {
+      console.log("delete button click" + this.id);
+      var newid = this.id.substring(9);
+      console.log("new id is " + newid);
+      Model.delete_Alarm(newid);
     })
 
   }
@@ -757,7 +764,7 @@ function alarmAudio(alarmList) {
       } else if (music == 4) {
         playAudio('clock.mp3');
       }*/
-      document.addEventListener("deviceready", onDeviceReady, false);
+      /*document.addEventListener("deviceready", onDeviceReady, false);
       function onDeviceReady() {
         //console.log(navigator.notification);
         function onConfirm(buttonIndex) {
@@ -788,8 +795,8 @@ function alarmAudio(alarmList) {
             ['Restart','Exit']     // buttonLabels
         );
         navigator.notification.beep(2);
-      }
-      /*playAudio(music);
+      }*/
+      playAudio(music);
       if (game == 1) {
         //typeStart(music);
         typeStart(music, alarmId);
@@ -805,7 +812,7 @@ function alarmAudio(alarmList) {
         $("#scanQR").show();
       }
       $("#mainmenu").hide();
-      $("#addmenu").hide();*/
+      //$("#addmenu").hide();
 
     }
   }
@@ -838,8 +845,62 @@ var audioView = function(Model) {
 
 }
 
-function startApp(){
+window.onload = function(){
   var m = new Model();
+  var skin = "white";
+  window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+  // DON'T use "var indexedDB = ..." if you're not in a function.
+  // Moreover, you may need references to some window.IDB* objects:
+  window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
+  window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+  var databaseName = 'alarmDB';
+  var databaseVersion = 1;
+  //indexedDB.deleteDatabase(databaseName);
+  var openRequest = window.indexedDB.open(databaseName, databaseVersion);
+  openRequest.onerror = function (event) {
+      console.log(openRequest.errorCode);
+  };
+  openRequest.onsuccess = function (event) {
+      // Database is open and initialized - we're good to proceed.
+      db = openRequest.result;
+      console.log("open db success");
+      m.restoreDB();
+      //return db;
+  };
+  openRequest.onupgradeneeded = function (event) {
+      // This is either a newly created database, or a new version number
+      // has been submitted to the open() call.
+      db = event.target.result;
+      console.log("upgrad db");
+      db.onerror = function () {
+          console.log(db.errorCode);
+      };
+  
+      // Create an object store and indexes. A key is a data value used to organize
+      // and retrieve values in the object store. The keyPath option identifies where
+      // the key is stored. If a key path is specified, the store can only contain
+      // JavaScript objects, and each object stored must have a property with the
+      // same name as the key path (unless the autoIncrement option is true).
+      var store = db.createObjectStore('alarmStore', { keyPath: 'id' });
+  
+      // Define the indexes we want to use. Objects we add to the store don't need
+      // to contain these properties, but they will only appear in the specified
+      // index of they do.
+      //
+      // syntax: store.createIndex(indexName, keyPath[, parameters]);
+      //
+      // All these values could have duplicates, so set unique to false
+      store.createIndex('Name', 'Name', { unique: false });
+      store.createIndex('Hour', 'Hour', { unique: false });
+      store.createIndex('Min', 'Min', { unique: false });
+      store.createIndex('period', 'period', { unique: false });
+      store.createIndex('on', 'on', { unique: false });
+      store.createIndex('game', 'game', { unique: false });
+      store.createIndex('music', 'music', { unique: false });
+      console.log("db upgrad");
+  
+  
+  };
 
   $("#newtimepicker").hide();
   $("#selectmenu").hide();
@@ -898,7 +959,7 @@ function startApp(){
         recordQR();
       }
 
-      document.getElementById('alarmname').value = null;
+      document.getElementById('alarmname').value = "alarm";
 
       $("#mainmenu").show();
       $("#newtimepicker").hide();
@@ -911,7 +972,27 @@ function startApp(){
     document.getElementById('alarmname').value = null;
 
     $("#mainmenu").show();
-    $("#addmenu").hide();
+    $("#newtimepicker").hide();
+
+  });
+
+  $("#changeskin").click(function(){
+    console.log("skin change button clicked");
+
+    if(skin == "dark"){
+      document.getElementById('bodyitself').className = 'layout-white';
+      document.getElementById("onsencss").href="lib/onsen/css/onsenui.css";
+      document.getElementById("onsencomp").href="lib/onsen/css/onsen-css-components.css";
+      skin ="white";
+    }else{
+      document.getElementById('bodyitself').className = 'layout-dark';
+      document.getElementById("onsencss").href="lib/onsen2/css/onsenui.css";
+      document.getElementById("onsencomp").href="lib/onsen2/css/onsen-css-components.css";
+      skin ="dark";
+
+    }
+
+
 
   });
 
