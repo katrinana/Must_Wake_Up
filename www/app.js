@@ -747,8 +747,8 @@ function demoplayQR() {
                     gameDemoSuccess("scanQR");
                   } else {
                     alert("O O Not this One");
-                    playQR(music, alarmId);
-                  }
+		    demoplayQR();
+		  }
               },
               function (error) {
                   alert("Scanning failed: " + error);
