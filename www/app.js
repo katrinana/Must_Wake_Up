@@ -807,6 +807,23 @@ function jumpStart(music, alarmId) {
   }
 }
 
+function shakeDemoStart() {
+  flag=false;
+  var jumpid = setInterval(function() {
+      console.log("jump loop");
+      if (flag == true) {
+        gameDemoSuccess("jump");
+        clearInterval(jumpid);
+      }
+    }, 1000);
+  jumpBotton.onclick=function(){
+    var j=this;
+    j.innerHTML="Jump Complete：<em>0</em>"
+    num=0;
+    yy.start();
+  }
+}
+
 /* jump game end */
 
 
