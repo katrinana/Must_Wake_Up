@@ -1,9 +1,15 @@
-.hand { width: 180px; height: 300px; background: url(../images/jump.png) no-repeat; position: absolute; top: 90px; left: 50%; margin-left: -95px;-webkit-animation: hand_move infinite 1s;animation: hand_move infinite 1s;}
+#supermario { width: 180px; height: 300px;
+ background: url(jump.png) no-repeat;
+ position: absolute; top: 90px; left: 50%; 
+ margin-left: -95px;-webkit-animation: hand_move infinite 1s;
+ animation: hand_move infinite 1s;}
+
  @keyframes hand_move {
 0% {transform: rotate(0);}
 50% {transform: rotate(15deg);}
 100% {transform: rotate(0);}
 }
+
 .jump-info{position:absolute;text-align:center;width:100%;bottom:200px;color:#fff;font-size:50px;}
 .jump-botton{font-size:20px;width:80%;height:50px;line-height:50px;position:absolute;left:10%;bottom:50px;color:#fff;text-align:center;background:#000;background-image: linear-gradient(rgb(142, 240, 40), rgb(38, 140, 40));background-image: -webkit-linear-gradient(rgb(142, 240, 40), rgb(38, 140, 40));cursor:pointer;border-radius:30px;}
 .jump-botton i,.jump-botton em{font-style:normal;}
