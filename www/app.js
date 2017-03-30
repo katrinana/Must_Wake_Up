@@ -382,11 +382,12 @@ var View = function(Model){
   Model.addObserver(this.updateView);
 }
 
-function gameSuccess(game, music, id) {
+function gameSuccess(game, music, id, model) {
   pauseAudio(music);
   $("#"+game).hide();
   $("#mainmenu").show();
   $('#'+id).attr('checked', false);
+  model.change_Alarm(id);
 }
 
 function gameDemoSuccess(game) {
@@ -399,8 +400,8 @@ function gameDemoSuccess(game) {
 
 var typeGameEnd = false;
 function genSentence() {
-	return "haha";
-  /*var ran = Math.floor(Math.random() * 10);
+	//return "haha";
+  var ran = Math.floor(Math.random() * 10);
     switch (ran) {
       case 0:
         return "A little progress each day adds up to big results";
@@ -422,7 +423,7 @@ function genSentence() {
         return "Once you control your mind you can conquer your body";
       case 9:
         return "When you feel like fiving up, think about why you started";
-    }*/
+    }
   }
 
 var trueSentence = genSentence();
@@ -435,11 +436,11 @@ function confirm() {
   } 
 }
 
-function typeStart(music, id) {
+function typeStart(music, id, model) {
   var typeID = setInterval(function() {
     if (typeGameEnd == true) {
       clearInterval(typeID);
-      gameSuccess("selectmenu", music, id);
+      gameSuccess("selectmenu", music, id, model);
       trueSentence = genSentence();
       document.getElementById("sentence").innerHTML = trueSentence;
       document.getElementById('typeBar').value = null;
@@ -617,7 +618,7 @@ function boxClick(obj) {
 
 
 
-function mathGameStart(music, id) {
+function mathGameStart(music, id, model) {
     // create a number of box and generate random number in array
     MathGameEnd = 0;
     sum          = 0;
@@ -642,7 +643,7 @@ function mathGameStart(music, id) {
     var mathid = setInterval(function() {
       console.log("mathgame loop");
       if (MathGameEnd == 1) {
-        gameSuccess("mathgame", music, id);
+        gameSuccess("mathgame", music, id, model);
         clearInterval(mathid);
       }
     }, 1000);
@@ -710,12 +711,12 @@ function recordQR() {
 }
 
 
-function playQR(music, alarmId) {
+function playQR(music, alarmId, model) {
     cordova.plugins.barcodeScanner.scan(
               function (result) {
                   if (result.text == record_file) {
                     alert("Game Pass, Time Wake Up");
-                    gameSuccess("scanQR", music, alarmId);
+                    gameSuccess("scanQR", music, alarmId, model);
                   } else {
                     alert("O O Not this One");
                     playQR(music, alarmId);
@@ -747,8 +748,8 @@ function demoplayQR() {
                     gameDemoSuccess("scanQR");
                   } else {
                     alert("O O Not this One");
-		    demoplayQR();
-		  }
+		                demoplayQR();
+		              }
               },
               function (error) {
                   alert("Scanning failed: " + error);
@@ -790,14 +791,14 @@ var yy=new mobilePhoneShake({
   }
 });
 
-function jumpStart(music, alarmId) {
+function jumpStart(music, alarmId, model) {
   jumpBotton.innerHTML="Start Shaking";
   flag=false;
   num=0;
   var jumpid = setInterval(function() {
       console.log("jump loop");
       if (flag == true) {
-        gameSuccess("jump", music, alarmId);
+        gameSuccess("jump", music, alarmId, model);
         clearInterval(jumpid);
       }
     }, 1000);
@@ -859,8 +860,76 @@ function pauseAudio(my_media) {
   my_media.pause();
 }
 
+var schedule = function (name, music) {
+  cordova.plugins.notification.local.schedule({
+    id: 1,
+    title: "Must Wake Up",
+    text: name,
+    sound: music
+  });
+}
 
-function alarmAudio(alarmList) {
+
+function alarmAudio(m) {
+  var alarmList = m.get_Allalarm();
+  var time = new Date();
+  var currentHrs = time.getHours();
+  var currentMin = time.getMinutes();
+  for(var i = 0; i < alarmList.length; i++) {
+    var alarm = alarmList[i];
+    if (alarm.getStatus() == false) continue;
+    var alarmHrs = alarm.getHour();
+    var alarmMins = alarm.getMin();
+    var alarmId = alarm.getId();
+    var game = alarm.getGame();
+    var music = alarm.getMusic();
+    var musicID = alarm.getMusicID();
+    var alarmName = alarm.getName();
+    var numHrs;
+    if (alarm.getPeriod() == "PM" && alarmHrs != 12) {
+      numHrs = parseInt(alarmHrs)+12;
+    } else if (alarm.getPeriod() == "AM" && alarmHrs == 12) {
+      numHrs = parseInt(alarmHrs)-12;
+    } else {
+      numHrs = parseInt(alarmHrs);
+    }
+    if (currentHrs == numHrs && currentMin == alarmMins && time.getSeconds() == 0) {
+      console.log("enter ringing"+alarmId);
+      document.addEventListener("deviceready", onDeviceReady, false);
+      function onDeviceReady() {
+        //console.log(navigator.notification);
+        if (musicID == 1) {
+          schedule(alarmName, 'Rooster.mp3');
+        } else if (musicID == 2) {
+          schedule(alarmName, 'Alarm-tone.mp3');
+        } else if (musicID == 3) {
+          schedule(alarmName, 'Coo.mp3');
+        } else if (musicID == 4) {
+          schedule(alarmName, 'clock.mp3');
+        }
+        playAudio(music);
+        if (game == 1) {
+          //typeStart(music);
+          typeStart(music, alarmId, m);
+          $("#selectmenu").show();              
+        } else if (game == 2) {
+          mathGameStart(music, alarmId, m);
+          $("#mathgame").show();
+        } else if (game == 3) {
+          jumpStart(music, alarmId, m);
+          $("#jump").show();
+        } else if (game == 4) {
+          playQR(music, alarmId, m);
+          $("#scanQR").show();
+        }
+        $("#mainmenu").hide();
+        $("#addmenu").hide();
+      }
+    }
+  }
+}
+
+/*function alarmAudio(alarmList) {
   var time = new Date();
   var currentHrs = time.getHours();
   var currentMin = time.getMinutes();
@@ -931,12 +1000,12 @@ function alarmAudio(alarmList) {
         $("#scanQR").show();
       }
       $("#mainmenu").hide();
-      //$("#addmenu").hide();*/
+      //$("#addmenu").hide();
 
     }
   }
   
-}
+}*/
 
 
 
@@ -952,7 +1021,7 @@ var audioView = function(Model) {
     clearInterval(tracker);
     if (all_alarm.length!=0) {
       tracker = setInterval(function() {
-        alarmAudio(all_alarm);
+        alarmAudio(Model);
       }, 1000);
       console.log("after set is " + tracker);
       Model.set_Tracker(tracker);
