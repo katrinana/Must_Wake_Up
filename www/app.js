@@ -1004,6 +1004,7 @@ window.onload = function(){
   $("#mathgame").hide();
   $("#jump").hide();
   $("#scanQR").hide();
+  $("#skinmeun").hide();
   $("#mainmenu").show();
 
   
@@ -1020,6 +1021,7 @@ window.onload = function(){
       $("#mathgame").hide();
       $("#jump").hide();
       $("#scanQR").hide();
+      $("#skinmeun").hide();
       $("#mainmenu").hide();
   });
 
@@ -1101,23 +1103,53 @@ window.onload = function(){
 
   $("#changeskin").click(function(){
     console.log("skin change button clicked");
+    $("#mainmenu").hide();
+    $("#skinmeun").show();
+  });
 
-    if(skin == "dark"){
+
+  $("#cancelbutton").click(function(){
+    console.log("skin cancel button clicked");
+    $("#mainmenu").show();
+    $("#skinmeun").hide();
+  })
+
+  $("#savebutton").click(function(){
+    console.log("skin save button clicked");
+
+    var skin = document.getElementById('choose-skin').value;;
+    console.log("skin has been checked " + skin);
+
+    if(skin == 1){//day
       document.getElementById('bodyitself').className = 'layout-white';
       document.getElementById("onsencss").href="lib/onsen/css/onsenui.css";
       document.getElementById("onsencomp").href="lib/onsen/css/onsen-css-components.css";
-      skin ="white";
-    }else{
+    }else if(skin == 2){//night
       document.getElementById('bodyitself').className = 'layout-dark';
       document.getElementById("onsencss").href="lib/onsen2/css/onsenui.css";
       document.getElementById("onsencomp").href="lib/onsen2/css/onsen-css-components.css";
-      skin ="dark";
+    }else if(skin == 3){//day-orange
+      document.getElementById('bodyitself').className = 'layout-white';
+      document.getElementById("onsencss").href="lib/onsenorange/css/onsenui.css";
+      document.getElementById("onsencomp").href="lib/onsenorange/css/onsen-css-components.css";
+
+    }else if(skin == 4){//day-purple\
+      document.getElementById('bodyitself').className = 'layout-white';
+      document.getElementById("onsencss").href="lib/onsenpurple/css/onsenui.css";
+      document.getElementById("onsencomp").href="lib/onsenpurple/css/onsen-css-components.css";
+
+    }else{//day-red
+      document.getElementById('bodyitself').className = 'layout-white';
+      document.getElementById("onsencss").href="lib/onsenred/css/onsenui.css";
+      document.getElementById("onsencomp").href="lib/onsenred/css/onsen-css-components.css";
 
     }
 
+    $("#mainmenu").show();
+    $("#skinmeun").hide();
 
 
-  });
+  })
 
 
 

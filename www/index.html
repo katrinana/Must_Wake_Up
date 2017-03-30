@@ -47,7 +47,7 @@
     <!--change skin button -->
     <div class="navigation-bar__left">
       <ons-toolbar-button> <!-- onclick="fn.open()" -->
-        <ons-icon id="changeskin" icon="pencil"></ons-icon>
+        <ons-icon id="changeskin" icon="ion-tshirt"></ons-icon>
       </ons-toolbar-button>
     </div>
 
@@ -236,6 +236,62 @@
          </div>
       </div>
 </ons-page>
+</div>
+
+<!-- skin menu -->
+<div id="skinmeun">
+  <ons-page>
+
+  <div class="navigation-bar navigation-bar--transparent"a>
+  <div class="navigation-bar__center">
+              Change skin
+  </div>
+  </div>
+
+
+<div class="view view-skin">
+               <div data-page="skin" class="page">
+  <div class="list-block">
+  <ul>
+    <li>
+        <!-- Smart select, will be opened in Picker -->
+        <a href="#" class="item-link smart-select" data-open-in="picker">
+          <select name="skin" id="choose-skin">
+                  <option value="1">day</option>
+                  <option value="2">night</option>
+                  <option value="3">day-orange</option>
+                  <option value="4">day-purple</option>
+                  <option value="5">day-red</option>
+          </select>
+               <div class="item-content">
+                  <div class="item-inner">
+                     <div class="item-title">Skin</div>
+                  </div>
+               </div>
+        </a>
+      </li>
+  </ul>
+  </div>
+
+    
+
+    <div class="row">
+      <div class="col-50">
+        <p class="buttons-row theme-red">
+        <a href="#" class="button button-big button-green active" id="cancelbutton">Cancel</a>
+        </p>
+      </div>
+      <div class="col-50">
+        <p class="buttons-row theme-lightblue">
+        <a href="#" class="button button-big button-red active" id="savebutton" >Save</a>
+      </p>
+      </div>
+    </div> 
+  </ul>
+</div>
+</div>
+</div>
+  </ons-page>
 </div>
 
 
