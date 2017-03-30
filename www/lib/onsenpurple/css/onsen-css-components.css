@@ -2607,7 +2607,7 @@ ons-range[disabled] .range {
   font-size: 17px;
   padding: 4px 10px;
   letter-spacing: 0;
-  color: #8962ed;
+  color: #574bdb;
   text-shadow: 0 1px none;
   background-color: rgba(0,0,0,0);
   -webkit-border-radius: 2px;
@@ -2654,14 +2654,14 @@ ons-range[disabled] .range {
   transition: none;
 }
 .toolbar-button--outline {
-  border: 1px solid #8962ed;
+  border: 1px solid #574bdb;
   margin: auto 8px;
   padding-left: 6px;
   padding-right: 6px;
 }
 .toolbar-button--material {
   font-size: 22px;
-  color: #fff;
+  color: #574bdb;
   display: inline-block;
   padding: 0 12px;
   height: 100%;
@@ -2685,7 +2685,7 @@ ons-range[disabled] .range {
   height: 44px;
   line-height: 44px;
   padding-left: 8px;
-  color: #8962ed;
+  color: #574bdb;
   background-color: rgba(0,0,0,0);
 }
 .back-button:active {
@@ -2709,7 +2709,7 @@ ons-range[disabled] .range {
 }
 .back-button--material {
   font-size: 22px;
-  color: #fff;
+  color: #574bdb;
   display: inline-block;
   padding: 0 12px;
   height: 100%;

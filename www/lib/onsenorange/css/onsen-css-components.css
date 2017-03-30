@@ -242,9 +242,9 @@ h6 {
   transition-duration: 0s;
 }
 input:checked + .switch__toggle {
-  -webkit-box-shadow: inset 0 0 0 2px #eb482f;
-  box-shadow: inset 0 0 0 2px #eb482f;
-  background-color: #eb482f;
+  -webkit-box-shadow: inset 0 0 0 2px #eb5e2f;
+  box-shadow: inset 0 0 0 2px #eb5e2f;
+  background-color: #eb5e2f;
 }
 input:checked + .switch__toggle .switch__handle {
   left: 21px;
@@ -2661,7 +2661,7 @@ ons-range[disabled] .range {
 }
 .toolbar-button--material {
   font-size: 22px;
-  color: #fff;
+  color: #eb5e2f;
   display: inline-block;
   padding: 0 12px;
   height: 100%;
@@ -2709,7 +2709,7 @@ ons-range[disabled] .range {
 }
 .back-button--material {
   font-size: 22px;
-  color: #fff;
+  color: #eb5e2f;
   display: inline-block;
   padding: 0 12px;
   height: 100%;
@@ -6141,7 +6141,7 @@ input[type="search"].search-input::-webkit-search-cancel-button {
   color: #fff;
   vertical-align: middle;
   text-align: center;
-  background-color: #eb482f;
+  background-color: #eb5e2f;
   border: 0px solid currentColor;
   -webkit-border-radius: 50%;
   border-radius: 50%;
@@ -6156,7 +6156,7 @@ input[type="search"].search-input::-webkit-search-cancel-button {
 .fab:active {
   -webkit-box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.4);
   box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.4);
-  background-color: #eb482f;
+  background-color: #eb5e2f;
   -webkit-transition: all 0.2s ease;
   -moz-transition: all 0.2s ease;
   -o-transition: all 0.2s ease;

@@ -18,7 +18,7 @@ $tabbar-background-color = #fff
 $tabbar-text-color = #ccc
 $tabbar-highlight-text-color = #eb5e2f
 $tabbar-border-color = #ddd
-$switch-highlight-color = #eb482f
+$switch-highlight-color = #eb5e2f
 $modal-background-color = rgba(0, 0, 0, 0.7)
 $modal-text-color = #fff
 $alert-dialog-background-color = #f4f4f4
@@ -37,7 +37,7 @@ $material-range-track-color = #e0e0e0
 $material-range-thumb-color = #009688
 $material-toolbar-background-color = #009688
 $material-toolbar-text-color = #ffffff
-$material-toolbar-button-color = #ffffff
+$material-toolbar-button-color = #eb5e2f
 $material-toolbar-button-active-color = rgba(255,255,255,0.15)
 $material-button-background-color = #009688
 $material-button-text-color = #ffffff
@@ -64,6 +64,6 @@ $material-tabbar-text-color = rgba(255, 255, 255, 0.6)
 $material-tabbar-highlight-text-color = #ffffff
 $material-tabbar-highlight-color = #26a69a
 $fab-text-color = #ffffff
-$fab-background-color = #eb482f
+$fab-background-color = #eb5e2f
 
 @import 'components'

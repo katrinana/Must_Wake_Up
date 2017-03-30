@@ -782,6 +782,7 @@ var yy=new mobilePhoneShake({
     if (num == 10) {
       yy.stop();
       flag=true;
+      num=0;
       document.getElementById("jump-info").innerHTML="Jump Done";
     }
   },
@@ -792,6 +793,7 @@ var yy=new mobilePhoneShake({
 
 function jumpStart(music, alarmId) {
   flag=false;
+  num=0;
   var jumpid = setInterval(function() {
       console.log("jump loop");
       if (flag == true) {
