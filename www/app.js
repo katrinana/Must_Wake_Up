@@ -94,13 +94,13 @@ function list_jquery(hour, min, period, name){
   var input_end = '<div class="switch__toggle"> <div class="switch__handle"></div> </div> </label> </div>';
 
   var input = '<input type="checkbox" id='+ id + ' class="switch__input" checked>';
-  var act_edit   = '<div class="swipeout-actions-left">' + '<a href="#" class="action2" id="edit_"' +id + '>Edit</a></div>';
+  //var act_edit   = '<div class="swipeout-actions-left">' + '<a href="#" class="action2" id="edit_"' +id + '>Edit</a></div>';
   var act_delete = '<div class="swipeout-actions-right" id=' + 'sldelete_' + id +'>' + '<a href="#" class="swipeout-delete" id ="delete_"' + id +'>Delete</a></div></li>';
 
   var jquery = '<li class="swipeout">' + '<div class="swipeout-content item-content">' + ' <div class="list__item__center">' + item + 
   '</div> <div class="list__item__right" id=' + 'sl' + id  + '> <label class="switch">';
 
-  jquery = jquery + input + input_end + act_edit + act_delete;
+  jquery = jquery + input + input_end +act_delete;
 
   return jquery;
 }
@@ -782,8 +782,7 @@ var yy=new mobilePhoneShake({
     if (num == 10) {
       yy.stop();
       flag=true;
-      num=0;
-      document.getElementById("jump-info").innerHTML="Jump Done";
+      document.getElementById("jump-info").innerHTML="Shake Done";
     }
   },
     onchange:function(x,y,z){
@@ -792,6 +791,7 @@ var yy=new mobilePhoneShake({
 });
 
 function jumpStart(music, alarmId) {
+  jumpBotton.innerHTML="Start Shaking";
   flag=false;
   num=0;
   var jumpid = setInterval(function() {
@@ -803,14 +803,16 @@ function jumpStart(music, alarmId) {
     }, 1000);
   jumpBotton.onclick=function(){
     var j=this;
-    j.innerHTML="Jump Complete：<em>0</em>"
+    j.innerHTML="Shake Complete：<em>0</em>"
     num=0;
     yy.start();
   }
 }
 
 function shakeDemoStart() {
+  jumpBotton.innerHTML="Start Shaking";
   flag=false;
+  num=0;
   var jumpid = setInterval(function() {
       console.log("jump loop");
       if (flag == true) {
@@ -820,7 +822,7 @@ function shakeDemoStart() {
     }, 1000);
   jumpBotton.onclick=function(){
     var j=this;
-    j.innerHTML="Jump Complete：<em>0</em>"
+    j.innerHTML="Shake Complete：<em>0</em>"
     num=0;
     yy.start();
   }
